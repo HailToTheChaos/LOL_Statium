@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Positions &mdash; documentación de LOL Statium - 1.0.0</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LOL Statium
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LOL Statium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">Positions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para Positions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">Web_scrap</span> <span class="kn">import</span> <span class="n">Scraping</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<div class="viewcode-block" id="getEvents"><a class="viewcode-back" href="../Positions.html#Positions.getEvents">[documentos]</a><span class="k">def</span> <span class="nf">getEvents</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para obtener los eventos del json de las partidas</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (dict): json del Timeline del juego en una partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: json con todos los eventos</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;frames&#39;</span><span class="p">]</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;events&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">person</span><span class="p">)):</span>
+        <span class="n">event</span> <span class="o">+=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;events&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">event</span></div>
+
+
+<div class="viewcode-block" id="getParticipantFrames"><a class="viewcode-back" href="../Positions.html#Positions.getParticipantFrames">[documentos]</a><span class="k">def</span> <span class="nf">getParticipantFrames</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para obtener los Frames de los participantes del json de la partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (dict): json del Timeline del juego en una partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: json con los participantFrames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;frames&#39;</span><span class="p">]</span>
+    <span class="n">pFrames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">person</span><span class="p">)):</span>
+        <span class="n">pFrames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;participantFrames&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pFrames</span></div>
+
+
+<div class="viewcode-block" id="findKills"><a class="viewcode-back" href="../Positions.html#Positions.findKills">[documentos]</a><span class="k">def</span> <span class="nf">findKills</span><span class="p">(</span><span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para encontrar los asesinatos que se especifican en el json</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        split (str): Split de la partida</span>
+<span class="sd">        week (str): Semana de la partida</span>
+<span class="sd">        events (dict): json con los eventos</span>
+<span class="sd">        json_data (dict): Json con los datos de la partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame con las kills</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_eventos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+    <span class="c1"># Se hace una query en el DF para buscrar las kills y special kills</span>
+    <span class="n">df_eventos</span> <span class="o">=</span> <span class="n">df_eventos</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="s2">&quot;type == &#39;CHAMPION_KILL&#39; or type == &#39;CHAMPION_SPECIAL_KILL&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="c1"># Se guardan los IDs como numeros enteros en una lista</span>
+    <span class="n">killerIds</span> <span class="o">=</span> <span class="n">df_eventos</span><span class="p">[</span><span class="s1">&#39;killerId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="p">[]</span>
+
+    
+    <span class="c1"># Se recorren los ids</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">killerIds</span><span class="p">)):</span>
+        <span class="c1"># Se guardan los nombres</span>
+        <span class="k">if</span> <span class="n">killerIds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># Para V5</span>
+                <span class="n">killerName</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV5</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="n">killerIds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>  <span class="c1"># Para V4</span>
+                <span class="n">killerName</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV4</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="n">killerIds</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">killerName</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">killerName</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+
+    <span class="n">ejeX</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ejeY</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">df_eventos</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="c1"># Se obtiene la posición y la añadimos a la ultima posición de los diccionarios</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_eventos</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">])):</span>
+            <span class="n">df_posicion</span> <span class="o">=</span> <span class="n">df_eventos</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">df_eventos</span><span class="p">[</span><span class="s1">&#39;killerId&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">ejeX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_posicion</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+                <span class="n">ejeY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_posicion</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">))</span>
+
+            <span class="c1"># Si está en el equipo rojo se le invierten las coordenadas</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ejeX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_posicion</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">))</span>
+                <span class="n">ejeY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_posicion</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+
+        <span class="c1"># Se pasa a DataFrame</span>
+        <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">,</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">players</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">ejeX</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">ejeY</span><span class="p">})</span>
+        <span class="n">df_final</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Split&#39;</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span>
+        <span class="n">df_final</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">,</span> <span class="n">week</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_final</span></div>
+
+
+<div class="viewcode-block" id="findFirstBloodV5"><a class="viewcode-back" href="../Positions.html#Positions.findFirstBloodV5">[documentos]</a><span class="k">def</span> <span class="nf">findFirstBloodV5</span><span class="p">(</span><span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para obtener un DataFrame con las primeras sangres de cada partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        split (str): Split de la partida</span>
+<span class="sd">        week (str): Semana de la partida</span>
+<span class="sd">        events (dict): json con los eventos</span>
+<span class="sd">        json_data (dict): Json con los datos de la partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame con las First blood</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Recorremos los eventos</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="c1"># Buscamos la First Blood y lo devolovemos en forma de DF</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;killType&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;KILL_FIRST_BLOOD&#39;</span><span class="p">:</span>
+            <span class="c1"># Se guarda la posición</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+
+            <span class="n">participantId</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;killerId&#39;</span><span class="p">]</span>
+            <span class="c1"># Se obtiene el nombre del jugador</span>
+            <span class="n">killer</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV5</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">participantId</span><span class="p">)</span>
+            <span class="c1"># Se devuelve un Dataframe con los datos</span>
+            <span class="k">if</span> <span class="n">participantId</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Split&#39;</span><span class="p">:</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">:</span> <span class="n">week</span><span class="p">,</span> <span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">killer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">killer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Split&#39;</span><span class="p">:</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">:</span> <span class="n">week</span><span class="p">,</span> <span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">killer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">killer</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="findDeaths"><a class="viewcode-back" href="../Positions.html#Positions.findDeaths">[documentos]</a><span class="k">def</span> <span class="nf">findDeaths</span><span class="p">(</span><span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">participantFrames</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para encontrar las muertes de los jugadores de una partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        split (str): Split de la partida</span>
+<span class="sd">        week (str): Semana de la partida</span>
+<span class="sd">        participantFrames (dict): Frames de los participantes de la partida</span>
+<span class="sd">        json_data (dict): Json con los datos de la partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame con las posiciones de las muertes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">participantFrames</span><span class="p">)):</span>
+        <span class="c1"># Recorremos los frames de los participantes</span>
+        <span class="k">for</span> <span class="n">participant_id</span><span class="p">,</span> <span class="n">participant_data</span> <span class="ow">in</span> <span class="n">participantFrames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">participant_data</span><span class="p">[</span><span class="s1">&#39;championStats&#39;</span><span class="p">][</span><span class="s1">&#39;health&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Si la salud es 0 se guardan el nombre del jugador y la posición</span>
+                <span class="n">player</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV5</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">participant_id</span><span class="p">))</span>
+                <span class="n">position</span> <span class="o">=</span> <span class="n">participant_data</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
+                <span class="c1"># Guardamos en una lista los diccionarios</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">participant_id</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s1">&#39;Split&#39;</span><span class="p">:</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">:</span> <span class="n">week</span><span class="p">,</span> <span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]})</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># Si están en el equipo rojo se le invierten las coordenadas</span>
+                    <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s1">&#39;Split&#39;</span><span class="p">:</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">:</span> <span class="n">week</span><span class="p">,</span> <span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">position</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]})</span>
+    <span class="c1"># Creamos un dataFrame a partir de la lista y lo devolvemos</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="findWards"><a class="viewcode-back" href="../Positions.html#Positions.findWards">[documentos]</a><span class="k">def</span> <span class="nf">findWards</span><span class="p">(</span><span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">participantFrames</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para buscar las posiciones de los wards colocados por los jugadores en una partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        events (dict): Json con los eventos</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: DataFrame de los wards colocados</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">participantId</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">timeStamp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">calculo</span> <span class="o">=</span> <span class="mi">60000</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;WARD_PLACED&#39;</span><span class="p">:</span>
+            <span class="n">participantId</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;creatorId&#39;</span><span class="p">))</span>
+            <span class="n">timeStamp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">))</span>
+    <span class="n">timeStamp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">calculo</span><span class="p">),</span> <span class="n">timeStamp</span><span class="p">))</span>
+    <span class="n">posiciones</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">participantId</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">participantId</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">posiciones</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">participantFrames</span><span class="p">[</span><span class="n">timeStamp</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">participantId</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">player</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV5</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="n">participantId</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">player</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV4</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="n">participantId</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">posiciones</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">participantId</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">posiciones</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">posiciones</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">posiciones</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">))</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">posiciones</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+
+    <span class="n">df_wards</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;Split&#39;</span><span class="p">:</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">:</span> <span class="n">week</span><span class="p">,</span> <span class="s1">&#39;Team&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">,</span> <span class="s1">&#39;Player&#39;</span><span class="p">:</span> <span class="n">players</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">df_wards</span></div>
+
+
+<div class="viewcode-block" id="getDF_positions"><a class="viewcode-back" href="../Positions.html#Positions.getDF_positions">[documentos]</a><span class="k">def</span> <span class="nf">getDF_positions</span><span class="p">(</span><span class="n">league</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Función para sacar las posiciones de Kills, Deaths, FirstBlood y Wards</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        league (str): Liga a buscar</span>
+<span class="sd">        season (str): Año de liga</span>
+<span class="sd">        download (bool): Descarga en formato .csv</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame con las posiciones</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Se obtienen los datos de la season</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">)</span>
+
+    <span class="c1"># Se guardan los datos de la season en variables</span>
+    <span class="n">splits</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">weeks</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="c1"># Se crean los DataFrames vacios de las posiciones divididos por tipos</span>
+    <span class="n">df_firstblood</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_deaths</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_kills</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_wards</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="c1"># Se recorren las partidas de la season</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;MB&#39;</span><span class="p">,</span><span class="n">colour</span><span class="o">=</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Positions Kills, deaths &amp; first blood. </span><span class="si">{</span><span class="n">league</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Se obtiene el json con el time line de la partida</span>
+        <span class="n">json_timeline</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">TL</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Se obtiene el Json con los datos de la partida</span>
+        <span class="n">json_data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="c1"># Se obtienen todos los frames de los participantes de la partida</span>
+        <span class="n">pFrames</span> <span class="o">=</span> <span class="n">getParticipantFrames</span><span class="p">(</span><span class="n">json_timeline</span><span class="p">)</span>
+        <span class="c1"># Se obtienen todos los eventos de la partida</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">getEvents</span><span class="p">(</span><span class="n">json_timeline</span><span class="p">)</span>
+
+        <span class="c1"># Se concatenan las posiciones de los asesinatos</span>
+        <span class="n">df_kills</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_kills</span><span class="p">,</span> <span class="n">findKills</span><span class="p">(</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">weeks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                  <span class="n">events</span><span class="p">,</span> <span class="n">json_data</span><span class="p">)],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;V5&#39;</span> <span class="ow">in</span> <span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>  <span class="c1"># Solo para la versión 5 de los datos obtenidos en lol.fandom.com</span>
+            <span class="c1"># Se concatenan las posiciones de las primeras sangres</span>
+            <span class="n">df_firstblood</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">df_firstblood</span><span class="p">,</span> <span class="n">findFirstBloodV5</span><span class="p">(</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">weeks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">events</span><span class="p">,</span> <span class="n">json_data</span><span class="p">)],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Se concatenan las posiciones de los Wards colocados</span>
+            <span class="n">df_wards</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_wards</span><span class="p">,</span> <span class="n">findWards</span><span class="p">(</span>
+                <span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">weeks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">events</span><span class="p">,</span> <span class="n">pFrames</span><span class="p">,</span> <span class="n">json_data</span><span class="p">)],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Se concatenan las posiciones de las muertes</span>
+            <span class="n">df_deaths</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_deaths</span><span class="p">,</span> <span class="n">findDeaths</span><span class="p">(</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">weeks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                         <span class="n">pFrames</span><span class="p">,</span> <span class="n">json_data</span><span class="p">)],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="s1">&#39;V4&#39;</span> <span class="ow">in</span> <span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="c1"># Se concatenan las posiciones de las primeras sangres</span>
+            <span class="n">df_firstblood</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">df_firstblood</span><span class="p">,</span> <span class="n">df_kills</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">1</span><span class="p">]],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Se insertan los tipos</span>
+    <span class="n">df_kills</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Kill&#39;</span><span class="p">)</span>
+    <span class="n">df_firstblood</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="s1">&#39;FirstBlood&#39;</span><span class="p">)</span>
+    <span class="n">df_deaths</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Death&#39;</span><span class="p">)</span>
+    <span class="n">df_wards</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Ward&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Se crea un DataFrame global con todas las posiciones</span>
+    <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">df_kills</span><span class="p">,</span> <span class="n">df_firstblood</span><span class="p">,</span> <span class="n">df_deaths</span><span class="p">,</span> <span class="n">df_wards</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Se crea el csv</span>
+    <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
+        <span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s1">&#39;Download</span><span class="se">\\</span><span class="s1">Positions-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Datos guardados en: Download</span><span class="se">\\</span><span class="s1">Positions-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">))</span>
+
+    <span class="c1"># Devolvemos el DataFrame</span>
+    <span class="k">return</span> <span class="n">df_final</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">dato</span> <span class="o">=</span> <span class="n">getDF_positions</span><span class="p">(</span><span class="s1">&#39;LEC&#39;</span><span class="p">,</span> <span class="s1">&#39;2019&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">dato</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

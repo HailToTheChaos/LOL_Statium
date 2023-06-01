@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>metadata &mdash; documentación de LOL Statium - 1.0.0</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LOL Statium
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LOL Statium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">metadata</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">web_scrap</span> <span class="kn">import</span> <span class="n">Scraping</span>
+<span class="kn">from</span> <span class="nn">web_scrap</span> <span class="kn">import</span> <span class="n">seasons</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span>
+
+<span class="c1"># Assign URL</span>
+<span class="n">principal</span> <span class="o">=</span> <span class="s2">&quot;https://lol.fandom.com/&quot;</span>
+
+<div class="viewcode-block" id="winLost"><a class="viewcode-back" href="../metadata.html#metadata.winLost">[documentos]</a><span class="k">def</span> <span class="nf">winLost</span><span class="p">(</span><span class="n">json</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;participants&#39;</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;gameId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;gameId&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;games&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;Win&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;lose&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">pan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pan</span><span class="p">[[</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s1">&#39;summonerName&#39;</span><span class="p">,</span> <span class="s1">&#39;gameId&#39;</span><span class="p">,</span> <span class="s1">&#39;games&#39;</span><span class="p">,</span> <span class="s1">&#39;Win&#39;</span><span class="p">,</span> <span class="s1">&#39;lose&#39;</span><span class="p">,</span> <span class="s1">&#39;kills&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths&#39;</span><span class="p">,</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;teamId&#39;</span><span class="p">]]</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">datos</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;participantIdentities&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;player&#39;</span><span class="p">][</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;championName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getChampionById</span><span class="p">(</span>
+                <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;championId&#39;</span><span class="p">])</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;kills&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;kills&#39;</span><span class="p">]</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;deaths&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;deaths&#39;</span><span class="p">]</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;assists&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;assists&#39;</span><span class="p">]</span>
+            <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;gameId&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;gameId&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;games&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;games&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;stats&#39;</span><span class="p">][</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;Win&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;lose&#39;</span> <span class="ow">in</span> <span class="n">person</span><span class="p">):</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;lose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">person</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">pan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pan</span><span class="p">[[</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s1">&#39;summonerName&#39;</span><span class="p">,</span> <span class="s1">&#39;gameId&#39;</span><span class="p">,</span> <span class="s1">&#39;games&#39;</span><span class="p">,</span> <span class="s1">&#39;Win&#39;</span><span class="p">,</span> <span class="s1">&#39;lose&#39;</span><span class="p">,</span> <span class="s1">&#39;kills&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths&#39;</span><span class="p">,</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;teamId&#39;</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="getChampionId"><a class="viewcode-back" href="../metadata.html#metadata.getChampionId">[documentos]</a><span class="k">def</span> <span class="nf">getChampionId</span><span class="p">():</span>
+    <span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lista2</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/champion.json&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">champion</span><span class="p">,</span> <span class="n">details</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
+        <span class="n">lista2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">lista</span><span class="p">,</span> <span class="n">lista2</span></div>
+
+
+<div class="viewcode-block" id="bansCont"><a class="viewcode-back" href="../metadata.html#metadata.bansCont">[documentos]</a><span class="k">def</span> <span class="nf">bansCont</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="s1">&#39;teams&#39;</span><span class="p">]</span>
+    <span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">listaT</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Iterar a través de la lista de equipos</span>
+    <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">person</span><span class="p">:</span>
+        <span class="c1"># Iterar a través de su lista de selecciones de campeones</span>
+        <span class="k">for</span> <span class="n">ban</span> <span class="ow">in</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;bans&#39;</span><span class="p">]:</span>
+            <span class="n">champion_name</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getChampionById</span><span class="p">(</span><span class="n">ban</span><span class="p">[</span><span class="s1">&#39;championId&#39;</span><span class="p">])</span>
+            <span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">champion_name</span><span class="p">)</span>
+            <span class="n">listaT</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ban</span><span class="p">[</span><span class="s1">&#39;pickTurn&#39;</span><span class="p">])</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ban&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">championName</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ban&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ban</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="c1"># data[&#39;gameId&#39;]=json[&#39;gameId&#39;]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lista</span><span class="p">)):</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">lista</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">num</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;Avg BT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">listaT</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ban&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s2">&quot;ban&quot;</span><span class="p">,</span> <span class="s2">&quot;Avg BT&quot;</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="kda"><a class="viewcode-back" href="../metadata.html#metadata.kda">[documentos]</a><span class="k">def</span> <span class="nf">kda</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">agrupado</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;games&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;ban&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;Win&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;lose&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;kills&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;assists&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">agrupado</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;games_y&quot;</span><span class="p">:</span> <span class="s2">&quot;games&quot;</span><span class="p">,</span> <span class="s2">&quot;deaths_y&quot;</span><span class="p">:</span> <span class="s2">&quot;deathsC&quot;</span><span class="p">,</span>
+                       <span class="s1">&#39;assists_y&#39;</span><span class="p">:</span> <span class="s1">&#39;assistsC&#39;</span><span class="p">,</span> <span class="s1">&#39;kills_y&#39;</span><span class="p">:</span> <span class="s1">&#39;killsC&#39;</span><span class="p">,</span> <span class="s2">&quot;deaths_x&quot;</span><span class="p">:</span> <span class="s2">&quot;deaths&quot;</span><span class="p">})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;assists_x&#39;</span><span class="p">:</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;kills_x&#39;</span><span class="p">:</span> <span class="s1">&#39;kills&#39;</span><span class="p">,</span>
+                       <span class="s2">&quot;Win_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Win&quot;</span><span class="p">,</span> <span class="s2">&quot;lose_y&quot;</span><span class="p">:</span> <span class="s2">&quot;lose&quot;</span><span class="p">,</span> <span class="s1">&#39;ban_y&#39;</span><span class="p">:</span> <span class="s1">&#39;ban&#39;</span><span class="p">})</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsC&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;killsC&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;assistsC&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsC&#39;</span><span class="p">]</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsC&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;killsC&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;assistsC&#39;</span><span class="p">])</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;wR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Win&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;games&#39;</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;teamId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Red&quot;</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="k">else</span> <span class="s2">&quot;Blue&quot;</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;teamId&#39;</span><span class="p">]]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="s1">&#39;summonerName&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+             <span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">summonerName</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="s1">&#39;summonerName&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">summonerName</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+            <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;summonerName&quot;</span><span class="p">:</span> <span class="s2">&quot;Player&quot;</span><span class="p">,</span> <span class="s2">&quot;championName&quot;</span><span class="p">:</span> <span class="s2">&quot;Champion&quot;</span><span class="p">})</span>
+    <span class="n">agrupado</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Player&#39;</span><span class="p">,</span> <span class="s1">&#39;Season&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;kills&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;assists&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">agrupado</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Player&#39;</span><span class="p">,</span> <span class="s1">&#39;Season&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;deaths_y&quot;</span><span class="p">:</span> <span class="s2">&quot;deathsJ&quot;</span><span class="p">,</span> <span class="s1">&#39;assists_y&#39;</span><span class="p">:</span> <span class="s1">&#39;assistsJ&#39;</span><span class="p">,</span> <span class="s1">&#39;kills_y&#39;</span><span class="p">:</span> <span class="s1">&#39;killsJ&#39;</span><span class="p">,</span>
+                       <span class="s2">&quot;deaths_x&quot;</span><span class="p">:</span> <span class="s2">&quot;deaths&quot;</span><span class="p">,</span> <span class="s1">&#39;assists_x&#39;</span><span class="p">:</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;kills_x&#39;</span><span class="p">:</span> <span class="s1">&#39;kills&#39;</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">:</span> <span class="s1">&#39;kdaC&#39;</span><span class="p">})</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsJ&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;killsJ&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;assistsJ&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsJ&#39;</span><span class="p">]</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;deathsJ&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;killsJ&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;assistsJ&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Player&#39;</span><span class="p">,</span> <span class="s1">&#39;team&#39;</span><span class="p">,</span> <span class="s1">&#39;teamId&#39;</span><span class="p">,</span> <span class="s1">&#39;Season&#39;</span><span class="p">,</span> <span class="s1">&#39;games&#39;</span><span class="p">,</span> <span class="s1">&#39;Champion&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;Win&#39;</span><span class="p">,</span> <span class="s1">&#39;lose&#39;</span><span class="p">,</span> <span class="s1">&#39;kills&#39;</span><span class="p">,</span> <span class="s1">&#39;assists&#39;</span><span class="p">,</span> <span class="s1">&#39;deaths&#39;</span><span class="p">,</span> <span class="s1">&#39;killsC&#39;</span><span class="p">,</span> <span class="s1">&#39;assistsC&#39;</span><span class="p">,</span> <span class="s1">&#39;deathsC&#39;</span><span class="p">,</span> <span class="s1">&#39;killsJ&#39;</span><span class="p">,</span> <span class="s1">&#39;assistsJ&#39;</span><span class="p">,</span> <span class="s1">&#39;deathsJ&#39;</span><span class="p">,</span> <span class="s1">&#39;kda&#39;</span><span class="p">,</span> <span class="s1">&#39;kdaC&#39;</span><span class="p">,</span> <span class="s1">&#39;ban&#39;</span><span class="p">,</span> <span class="s1">&#39;Avg BT&#39;</span><span class="p">,</span> <span class="s1">&#39;wR&#39;</span><span class="p">]]</span></div>
+
+
+<div class="viewcode-block" id="presence"><a class="viewcode-back" href="../metadata.html#metadata.presence">[documentos]</a><span class="k">def</span> <span class="nf">presence</span><span class="p">(</span><span class="n">datos</span><span class="p">):</span>
+    <span class="n">datos</span><span class="p">[</span><span class="s1">&#39;Presence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;ban&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;games&#39;</span><span class="p">])</span> <span class="o">/</span>
+                         <span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;games&#39;</span><span class="p">]</span><span class="o">.</span> <span class="nb">max</span><span class="p">()</span><span class="o">+</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;ban&#39;</span><span class="p">]</span><span class="o">.</span> <span class="nb">max</span><span class="p">()))</span><span class="o">*</span><span class="mi">100</span>
+    <span class="k">return</span> <span class="n">datos</span></div>
+
+
+<div class="viewcode-block" id="metaDat"><a class="viewcode-back" href="../metadata.html#metadata.metaDat">[documentos]</a><span class="k">def</span> <span class="nf">metaDat</span><span class="p">(</span><span class="n">tabla</span><span class="p">,</span> <span class="n">json</span><span class="p">,</span> <span class="n">season</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">winLost</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;championName&#39;</span><span class="p">)</span>
+    <span class="n">dato</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tabla</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">dato</span> <span class="o">=</span> <span class="n">dato</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">Season</span><span class="o">=</span><span class="n">season</span><span class="p">)</span>
+    <span class="n">dato2</span> <span class="o">=</span> <span class="n">bansCont</span><span class="p">(</span><span class="n">json</span><span class="p">,</span> <span class="n">tabla</span><span class="p">)</span>
+    <span class="n">metaf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">dato</span><span class="p">,</span> <span class="n">dato2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">metaf</span></div>
+
+
+<div class="viewcode-block" id="metaDatf"><a class="viewcode-back" href="../metadata.html#metadata.metaDatf">[documentos]</a><span class="k">def</span> <span class="nf">metaDatf</span><span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">getChampionId</span><span class="p">()</span>
+    <span class="n">tabla</span><span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">tabla</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">year</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">season</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">links</span><span class="p">:</span>
+        <span class="n">df_final</span> <span class="o">=</span> <span class="n">metaDat</span><span class="p">(</span><span class="n">tabla</span><span class="p">,</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">season</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;MB&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Metadatos </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">),</span><span class="n">colour</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span><span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">df_final</span><span class="p">,</span> <span class="n">metaDat</span><span class="p">(</span><span class="n">tabla</span><span class="p">,</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">season</span><span class="p">[</span><span class="n">i</span><span class="p">])])</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">df_final</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">kda</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">presence</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Presence&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Se crea el csv</span>
+        <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Download</span><span class="se">\\</span><span class="s1">Meta-</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Datos guardados en: Download</span><span class="se">\\</span><span class="s1">Meta-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">region</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">year</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">if __name__ == &quot;__main__&quot;:</span>
+<span class="sd">    p01 = metaDatf(&#39;LEC&#39;, &#39;2023&#39;)</span>
+
+<span class="sd">    p02 = metaDatf(&#39;LEC&#39;, &#39;2021&#39;)</span>
+
+<span class="sd">    pd.concat([p01, p02], ignore_index=True).to_csv(</span>
+<span class="sd">        &#39;Download\\Meta-LEC-2021_2023.csv&#39;, index=False)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

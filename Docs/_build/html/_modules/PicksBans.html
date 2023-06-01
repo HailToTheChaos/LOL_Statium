@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PicksBans &mdash; documentación de LOL Statium - 1.0.0</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LOL Statium
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LOL Statium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">PicksBans</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para PicksBans</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">Web_scrap</span> <span class="kn">import</span> <span class="n">Scraping</span>
+<span class="kn">from</span> <span class="nn">Web_scrap</span> <span class="kn">import</span> <span class="n">splits</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="getPatch"><a class="viewcode-back" href="../PicksBans.html#PicksBans.getPatch">[documentos]</a><span class="k">def</span> <span class="nf">getPatch</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para obtener el parche del juego</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (json): Json con los datos del juego</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Parche del juego</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;gameVersion&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="formatDF"><a class="viewcode-back" href="../PicksBans.html#PicksBans.formatDF">[documentos]</a><span class="k">def</span> <span class="nf">formatDF</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para formatear el DataFrame de los picks y bans.</span>
+<span class="sd">    Dependen de si son Picks, Bans o Blue, Red.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df (df): DataFrame a formatear</span>
+<span class="sd">        side (str): Red/blue</span>
+<span class="sd">        type (str): Pick/ban</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        df: DataFrame formateado</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;blue&#39;</span><span class="p">):</span>  <span class="c1"># Si es del lado azul</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="s1">&#39;B&#39;</span>  <span class="c1"># creo una variable para el nombre de la columna y le pongo una B inicial</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;red&#39;</span><span class="p">):</span>  <span class="c1"># Si es rojo</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span>  <span class="c1"># le coloco una R inicial</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;ban&#39;</span><span class="p">):</span>  <span class="c1"># Si es para formatear un ban</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="n">col_name</span><span class="o">+</span><span class="s2">&quot;B&quot;</span>  <span class="c1"># Se le añade una B para identificar que es un Ban</span>
+        <span class="c1"># Transpongo y formateo el dataFrame de salida con los bans</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;2&#39;</span><span class="p">,</span>
+                                              <span class="mi">2</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;4&#39;</span><span class="p">,</span>
+                                              <span class="mi">4</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;5&#39;</span><span class="p">})</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;pick&#39;</span><span class="p">):</span>  <span class="c1"># Si es para formatear un pick</span>
+        <span class="n">col_name</span> <span class="o">=</span> <span class="n">col_name</span><span class="o">+</span><span class="s2">&quot;P&quot;</span>  <span class="c1"># Se le añade una P para identificar que es un Pick</span>
+        <span class="c1"># Creo otra variable para la columna de los jugadores</span>
+        <span class="n">col_player</span> <span class="o">=</span> <span class="n">col_name</span><span class="o">+</span><span class="s2">&quot;Player&quot;</span>
+        <span class="c1"># Transpongo y formateo el dataFrame de salida con los picks</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">col_player</span><span class="o">+</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                                              <span class="mi">2</span><span class="p">:</span> <span class="n">col_player</span><span class="o">+</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;2&#39;</span><span class="p">,</span>
+                                              <span class="mi">4</span><span class="p">:</span> <span class="n">col_player</span><span class="o">+</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;3&#39;</span><span class="p">,</span>
+                                              <span class="mi">6</span><span class="p">:</span> <span class="n">col_player</span><span class="o">+</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;4&#39;</span><span class="p">,</span>
+                                              <span class="mi">8</span><span class="p">:</span> <span class="n">col_player</span><span class="o">+</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="n">col_name</span><span class="o">+</span><span class="s1">&#39;5&#39;</span><span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="picks"><a class="viewcode-back" href="../PicksBans.html#PicksBans.picks">[documentos]</a><span class="k">def</span> <span class="nf">picks</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para obtener los picks de un json</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (json): json de entrada con los datos del juego</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        df: DataFrame con los picks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">participants</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;participants&#39;</span><span class="p">]</span>  <span class="c1"># Se obtiene el nodo de participantes del JSON</span>
+
+    <span class="c1"># Se crean dos listas vacias para almacenar los picks tanto del equipo azul como el rojo.</span>
+    <span class="n">blue_picks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">red_picks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">participants</span><span class="p">:</span>  <span class="c1"># Se recorre e itera el nodo participantes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Se almacena el nombre del campeón</span>
+            <span class="n">champion_name</span> <span class="o">=</span> <span class="n">participant</span><span class="p">[</span><span class="s1">&#39;championName&#39;</span><span class="p">]</span>
+            <span class="c1"># Se almacena el nombre del jugador</span>
+            <span class="n">summoner_name</span> <span class="o">=</span> <span class="n">participant</span><span class="p">[</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># En algunos json, la disposición de los datos es distinta. Por eso salta KeyError</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># Obtengo el id del campeón y busco su nombre por ID</span>
+            <span class="n">championId</span> <span class="o">=</span> <span class="n">participant</span><span class="p">[</span><span class="s1">&#39;championId&#39;</span><span class="p">]</span>
+            <span class="n">champion_name</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getChampionById</span><span class="p">(</span><span class="n">championId</span><span class="p">)</span>
+
+            <span class="c1"># Obtengo el id del jugador</span>
+            <span class="n">participantId</span> <span class="o">=</span> <span class="n">participant</span><span class="p">[</span><span class="s1">&#39;participantId&#39;</span><span class="p">]</span>
+            <span class="c1"># Obtengo las identidades de los jugadores para hacer una busqueda del nombre del jugador</span>
+            <span class="n">summonerIds</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;participantIdentities&#39;</span><span class="p">]</span>
+            <span class="c1"># Las recorro para obtener el nombre del jugador</span>
+            <span class="k">for</span> <span class="n">summoner</span> <span class="ow">in</span> <span class="n">summonerIds</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">summoner</span><span class="p">[</span><span class="s1">&#39;participantId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">participantId</span><span class="p">):</span>
+                    <span class="n">summoner_name</span> <span class="o">=</span> <span class="n">summoner</span><span class="p">[</span><span class="s1">&#39;player&#39;</span><span class="p">][</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span>
+                        <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Se agregan los datos obtenidos anteriormente a la lista correspondiente</span>
+        <span class="c1"># Si su teamId es 100, es que pertenece al equipo azul</span>
+        <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s1">&#39;teamId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">blue_picks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summoner_name</span><span class="p">)</span>
+            <span class="n">blue_picks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">champion_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Sino al rojo</span>
+            <span class="n">red_picks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summoner_name</span><span class="p">)</span>
+            <span class="n">red_picks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">champion_name</span><span class="p">)</span>
+
+    <span class="c1"># Creamos los dataFrames</span>
+    <span class="n">df_blue</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">blue_picks</span><span class="p">)</span>
+    <span class="n">df_red</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">red_picks</span><span class="p">)</span>
+
+    <span class="c1"># Se transponen los DataFrames y se renombran las columnas</span>
+    <span class="n">df_blue</span> <span class="o">=</span> <span class="n">formatDF</span><span class="p">(</span><span class="n">df_blue</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;pick&#39;</span><span class="p">)</span>
+    <span class="n">df_red</span> <span class="o">=</span> <span class="n">formatDF</span><span class="p">(</span><span class="n">df_red</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;pick&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Se devuelve el conjunto del Dataframe del equipo azul y del rojo</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_blue</span><span class="p">,</span> <span class="n">df_red</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bans"><a class="viewcode-back" href="../PicksBans.html#PicksBans.bans">[documentos]</a><span class="k">def</span> <span class="nf">bans</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método para sacar un DataFrame con los picks.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (json): json con la información de la partida</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;teams&#39;</span><span class="p">]</span>
+  <span class="c1"># Se crea dos listas vacías, una para cada equipo</span>
+    <span class="n">blue_bans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">red_bans</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="c1"># Iterar a través de la lista de equipos</span>
+    <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
+        <span class="c1"># Iterar a través de su lista de selecciones de campeones</span>
+        <span class="k">for</span> <span class="n">ban</span> <span class="ow">in</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;bans&#39;</span><span class="p">]:</span>
+            <span class="n">champion_name</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getChampionById</span><span class="p">(</span><span class="n">ban</span><span class="p">[</span><span class="s1">&#39;championId&#39;</span><span class="p">])</span>
+            <span class="c1"># Para cada selección de campeón, agregarla a la lista correspondiente al equipo</span>
+            <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s1">&#39;teamId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">100</span><span class="p">:</span>
+                <span class="n">blue_bans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">champion_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">red_bans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">champion_name</span><span class="p">)</span>
+
+    <span class="n">df_blue</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">blue_bans</span><span class="p">)</span>
+    <span class="n">df_red</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">red_bans</span><span class="p">)</span>
+
+    <span class="n">df_blue</span> <span class="o">=</span> <span class="n">formatDF</span><span class="p">(</span><span class="n">df_blue</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;ban&#39;</span><span class="p">)</span>
+    <span class="n">df_red</span> <span class="o">=</span> <span class="n">formatDF</span><span class="p">(</span><span class="n">df_red</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;ban&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_blue</span><span class="p">,</span> <span class="n">df_red</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<span class="c1"># Picks y bans</span>
+<div class="viewcode-block" id="picksBans"><a class="viewcode-back" href="../PicksBans.html#PicksBans.picksBans">[documentos]</a><span class="k">def</span> <span class="nf">picksBans</span><span class="p">(</span><span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">blueTeam</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">redTeam</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método que genera un DataFrame de una sola partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        json_data (json): Json con los datos de la partida</span>
+<span class="sd">        blueTeam (str): Equipo del lado azul</span>
+<span class="sd">        redTeam (str): Equipo del lado rojo</span>
+<span class="sd">        weeks (str): Semanas</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame final con los picks y bans</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s1">&#39;teams&#39;</span><span class="p">]</span>
+    <span class="c1"># Se mira que equipo ha ganado y se</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="n">winner</span> <span class="o">=</span> <span class="n">blueTeam</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">winner</span> <span class="o">=</span> <span class="n">redTeam</span>
+
+    <span class="n">df_bans</span> <span class="o">=</span> <span class="n">bans</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>  <span class="c1"># Obtención del DF de los bans</span>
+    <span class="n">df_picks</span> <span class="o">=</span> <span class="n">picks</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>  <span class="c1"># Obtención del DF de los picks</span>
+    <span class="n">df_global</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_bans</span><span class="p">,</span> <span class="n">df_picks</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Se concatenan los DF</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Split&#39;</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">,</span> <span class="n">week</span><span class="p">)</span>  <span class="c1"># Se inserta la semana</span>
+    <span class="c1"># Se insertan el equipo azul y rojo</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="n">blueTeam</span><span class="p">)</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="n">redTeam</span><span class="p">)</span>
+    <span class="c1"># Se inserta el equipo campeon</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;WinnerT&#39;</span><span class="p">,</span> <span class="n">winner</span><span class="p">)</span>
+    <span class="c1"># Se inserta el parche del juego</span>
+    <span class="n">df_global</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Patch&#39;</span><span class="p">,</span> <span class="n">getPatch</span><span class="p">(</span><span class="n">json_data</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">df_global</span></div>
+
+
+<div class="viewcode-block" id="getDF_picksBans"><a class="viewcode-back" href="../PicksBans.html#PicksBans.getDF_picksBans">[documentos]</a><span class="k">def</span> <span class="nf">getDF_picksBans</span><span class="p">(</span><span class="n">league</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Método que obtiene todos los enlaces de una temporada, de una región y un año</span>
+<span class="sd">    en concreto y los transforma en un Dataframe.</span>
+<span class="sd">    Finalmente genera un csv</span>
+<span class="sd">    Args:</span>
+<span class="sd">        league (str): región de la que se quieren obtener los datos</span>
+<span class="sd">        season (str): año</span>
+<span class="sd">        download (bool, optional): _description_. Defaults to False.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Dataframe final de una temporada        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="c1"># Si hay datos</span>
+        <span class="c1"># Se guardan en listas</span>
+        <span class="n">ssons</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">weeks</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">blueTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">redTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+        <span class="c1"># Se inicializa el df final</span>
+        <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="c1"># Se recorren las listas para meter los datos en el DF final</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;MB&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Picks y bans </span><span class="si">{</span><span class="n">league</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_final</span><span class="p">,</span>
+                                  <span class="n">picksBans</span><span class="p">(</span><span class="n">ssons</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">weeks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">blueTeams</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                            <span class="n">redTeams</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]))],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">df_final</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Season&#39;</span><span class="p">,</span> <span class="n">season</span><span class="p">)</span>
+
+        <span class="c1"># Se crea el csv</span>
+        <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
+            <span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s1">&#39;Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s1">&#39;Datos guardados en: Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">df_final</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Si no los hay</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No hay datos&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">p01</span> <span class="o">=</span> <span class="n">getDF_picksBans</span><span class="p">(</span><span class="s1">&#39;LEC&#39;</span><span class="p">,</span> <span class="s1">&#39;2023&#39;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p01</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

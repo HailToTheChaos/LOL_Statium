@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PicksBans module &mdash; documentación de LOL Statium - 1.0.0</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            LOL Statium
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">PicksBans module</a><ul>
+<li><a class="reference internal" href="#PicksBans.bans"><code class="docutils literal notranslate"><span class="pre">bans()</span></code></a></li>
+<li><a class="reference internal" href="#PicksBans.formatDF"><code class="docutils literal notranslate"><span class="pre">formatDF()</span></code></a></li>
+<li><a class="reference internal" href="#PicksBans.getDF_picksBans"><code class="docutils literal notranslate"><span class="pre">getDF_picksBans()</span></code></a></li>
+<li><a class="reference internal" href="#PicksBans.getPatch"><code class="docutils literal notranslate"><span class="pre">getPatch()</span></code></a></li>
+<li><a class="reference internal" href="#PicksBans.picks"><code class="docutils literal notranslate"><span class="pre">picks()</span></code></a></li>
+<li><a class="reference internal" href="#PicksBans.picksBans"><code class="docutils literal notranslate"><span class="pre">picksBans()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LOL Statium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PicksBans module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/PicksBans.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-PicksBans">
+<span id="picksbans-module"></span><h1>PicksBans module<a class="headerlink" href="#module-PicksBans" title="Enlace permanente a este encabezado"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.bans">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">bans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#bans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.bans" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para sacar un DataFrame con los picks.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (json): json con la información de la partida</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.formatDF">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">formatDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#formatDF"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.formatDF" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para formatear el DataFrame de los picks y bans.
+Dependen de si son Picks, Bans o Blue, Red.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (df): DataFrame a formatear
+side (str): Red/blue
+type (str): Pick/ban</p>
+</dd>
+<dt>Returns:</dt><dd><p>df: DataFrame formateado</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.getDF_picksBans">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">getDF_picksBans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#getDF_picksBans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.getDF_picksBans" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método que obtiene todos los enlaces de una temporada, de una región y un año
+en concreto y los transforma en un Dataframe.
+Finalmente genera un csv
+Args:</p>
+<blockquote>
+<div><p>league (str): región de la que se quieren obtener los datos
+season (str): año
+download (bool, optional): _description_. Defaults to False.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>pd.DataFrame: Dataframe final de una temporada</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.getPatch">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">getPatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#getPatch"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.getPatch" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener el parche del juego</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (json): Json con los datos del juego</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Parche del juego</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.picks">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#picks"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.picks" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener los picks de un json</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (json): json de entrada con los datos del juego</p>
+</dd>
+<dt>Returns:</dt><dd><p>df: DataFrame con los picks</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="PicksBans.picksBans">
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">picksBans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blueTeam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redTeam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/PicksBans.html#picksBans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.picksBans" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método que genera un DataFrame de una sola partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (json): Json con los datos de la partida
+blueTeam (str): Equipo del lado azul
+redTeam (str): Equipo del lado rojo
+weeks (str): Semanas</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame final con los picks y bans</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

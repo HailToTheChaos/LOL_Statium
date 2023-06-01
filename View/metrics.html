@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>LOL Statium: Métricas</title>
+
+  <!--Scripts para panel, bokeh y tabulator-->
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.3.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.3.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@holoviz/panel@0.13.1/dist/panel.min.js"></script>
+
+  <!--Fa-filter-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--Links y Scripts de pyScript-->
+  <link rel="stylesheet" href="Styles/style.css" />
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+  <!--Configuraciones previas de pyScript-->
+  <py-config>
+    #Librerias a utilizar
+    packages = [
+    "https://cdn.holoviz.org/panel/0.14.4/dist/wheels/bokeh-2.4.3-py3-none-any.whl",
+    "pandas",
+    "panel==0.13.1",
+    "sqlite3"]
+
+    #Ficheros a utilizar
+    [[fetch]]
+    files = ['../Database/db.sqlite']
+  </py-config>
+</head>
+<body>
+
+<!--Barra de navegación-->
+<div class="navbar">
+  <div class="menu-icon" py-click="toggle_menu()">&#9776;</div>
+  <a href="index.html" class="menu-item">Inicio</a>
+  <a href="matchHistory.html" class="menu-item">Historial</a>  
+  <a href="metrics.html" class="menu-item">Métricas</a>  
+  <a href="heatmap.html" class="menu-item">Mapa de calor</a>
+  <a href="Picksbans.html" class="menu-item">Top Picks</a>    
+</div>
+
+<!--Menu con más opciones de navegación-->
+<div class="menu" id="menu">
+  <div class="menu-column">
+    <a href="matchHistory.html?2020">Historial de partidas LEC 2020</a>
+    <a href="matchHistory.html?2021">Historial de partidas LEC 2021</a>
+    <a href="matchHistory.html?2022">Historial de partidas LEC 2022</a>
+    <a href="matchHistory.html?2023">Historial de partidas LEC 2023</a>
+  </div>   
+  <div class="menu-column">
+    <a href="metrics.html?2020">Métricas LEC 2020</a>
+    <a href="metrics.html?2021">Métricas LEC 2021</a>
+    <a href="metrics.html?2022">Métricas LEC 2022</a>
+    <a href="metrics.html?2023">Métricas LEC 2023</a>
+  </div>
+  <div class="menu-column">
+    <a href="heatmap.html?2020">Mapa de calor LEC 2020</a>
+    <a href="heatmap.html?2021">Mapa de calor LEC 2021</a>
+    <a href="heatmap.html?2022">Mapa de calor LEC 2022</a>
+    <a href="heatmap.html?2023">Mapa de calor LEC 2023</a>
+  </div>
+  <div class="menu-column">
+    <a href="Picksbans.html?2020">Top Picks LEC 2020</a>
+    <a href="Picksbans.html?2021">Top Picks LEC 2021</a>
+    <a href="Picksbans.html?2022">Top Picks LEC 2022</a>
+    <a href="Picksbans.html?2023">Top Picks LEC 2023</a>
+  </div>    
+</div>
+</div> 
+
+  <!--Se establece un formulario para filtrar por selectores-->
+  <form class="form-grid">
+    <div class="input-group">
+      <label for="team">Equipo</label>
+      <select id="team-select" py-change="onChangingSelectedTeam()"></select>
+    </div>
+  
+    <div class="input-group">
+      <label for="player">Jugador</label>
+      <select id="player-select"></select>
+    </div>
+  
+    <div class="input-group">
+      <label for="Season">Temporada</label>
+      <select id="Season-select" name="Season">
+        <option value=""></option>
+        <option value="Winter">Winter</option>
+        <option value="Spring">Spring</option>
+        <option value="Summer">Summer</option>
+      </select>
+    </div>  
+
+  </form>
+  <div class="button-group">
+    <input type="button" value="Filtrar" py-click="filterData()">
+    <input type="button" value="Limpiar filtros" py-click="clearFilters()">
+  </div>
+  
+
+<!-- Agrega este código JavaScript en la sección <head> o al final del cuerpo de tu documento HTML -->
+  <div id="header">
+  <h1 id="h1">Métricas</h1>
+  <i class="fa fa-filter" aria-hidden="true" style="color:#0059b3" py-click="toggle_filter_menu()"></i>
+  </div>
+  <div id="filter-menu" style="display:none;">
+      <!--<li><a href="#" py-click="sort_dataframe('Jugador', 'asc')">Ordenar por Jugador (ascendente)</a></li>-->
+      <label for="Tipo">Tipo:</label>
+      <select id="type-select" name="Tipo">
+        <option value=""></option>
+        <option value="Equipo">Equipo</option>
+        <option value="Jugador">Jugador</option>
+        <option value="Spring">Spring</option>
+    </select>
+    <label for="Asc/Desc">Asc/Desc:</label>
+      <select id="asc-select" name="Tipo">
+        <option value="Ascendente">Ascendente</option>
+        <option value="Descendente">Descendente</option>
+    </select>
+    <input type="button" value="Filtrar" py-click="upDown">
+    <input type="button" value="Limpiar filtros" py-click="clearUpDown">
+  </div>
+  <div id="table"></div><!--Etiqueta donde se va a generar la tabla-->
+  
+  <!--Se crea el script para leer los datos de un csv y para filtrar los datos-->
+  <py-script>
+import warnings
+warnings.filterwarnings("ignore")
+#Librería para obtener los datos de un enlace
+from pyodide.http import open_url
+import panel as pn
+import pandas as pd
+import sqlite3 as sql
+from pyscript import Element
+import js
+import datetime
+
+#<!--Lectura base de datos-->
+con = sql.connect('../Database/db.sqlite')
+
+url = js.eval("window.location.href")
+if '?' in url:
+  year = url.split('?')[-1]
+else:
+  year = datetime.datetime.now().date().year
+
+js.document.getElementById('h1').innerHTML = f'Métricas {year}'
+
+#Para leer desde fichero cambiar: url -> nombre del fichero
+df = pd.read_sql('SELECT * FROM MetaData_LEC_2023', con)
+#df de la tabla
+df['wR'] = df['wR'].multiply(100)
+df = df[['Player','team','Split','kda','wR']].drop_duplicates('Player').round(2)
+df_rename = df.rename(columns={'Player':'Jugador','team':'Equipo','Season':'Temporada','kda':'KDA','wR':'Win rate (%)'})
+
+#df de los equipos sin duplicados
+df_teams = df[['team']].drop_duplicates()
+#df de los jugadores sin duplicados
+df_players = df[['Player']].drop_duplicates()
+
+#Se inicializan las opciones del formulario, tanto de equipo como de jugadores
+teams = '<option value=""></option>'
+players = '<option value=""></option>'
+
+#Se genera el html con todas las opciones de equipos y jugadores
+for index, row in df_teams.iterrows():
+  teams = teams + '<option value="{}">{}</option>'.format(row['team'],row['team'])
+for index, row in df_players.iterrows():
+  players = players + '<option value="{}">{}</option>'.format(row['Player'],row['Player'])
+
+#Se añaden las opciones al selector
+Element('team-select').element.innerHTML = teams
+Element('player-select').element.innerHTML = players    
+
+#Se crea la tabla a través del DF
+pane_df = pn.pane.DataFrame(df_rename, index=False,sizing_mode='stretch_width')
+
+pane_df.servable(target='table')
+#Función que al cambiar la selección del equipo, muestra los jugadores de ese equipo.
+def onChangingSelectedTeam():
+  ts = Element('team-select').value
+  if ts != '':
+    js.document.getElementById('player-select').innerHTML = ''
+    df_filt = df[df.team==ts][['Player']].drop_duplicates()
+    ps = '<option value=""></option>'
+    for index, row in df_filt.iterrows():
+      ps = ps + '<option value="{}">{}</option>'.format(row['Player'],row['Player'])
+    js.document.getElementById('player-select').innerHTML = ps
+  else:
+    js.document.getElementById('player-select').innerHTML = players
+#Función para filtrar los datos leyendo el formulario
+def filterData():
+  #Se guardan los valores de las etiquetas
+  team = js.document.getElementById('team-select').value
+  player = js.document.getElementById('player-select').value      
+  season = js.document.getElementById('Season-select').value
+  
+  query = []
+  filt = False
+  #Se guarda la consulta al dataframe
+  if team != '':
+    query.append(f"Equipo == '{team}'")
+    filt = True
+  if player != '':
+    query.append(f"Jugador.str.contains(@player)")
+    filt = True
+  
+  if season != '':
+    query.append(f"Temporada == '{season}'")
+    filt = True
+  if filt:
+    #Se hace la consulta
+    df_filt = df_rename.query(" and ".join(query))
+    #Se actualiza la tabla con los nuevos datos
+    pane_df.object = df_filt
+  
+#Función para limpiar el filtro
+def clearFilters():
+  #Se establecen los valores de las etiquetas del formulario a vacio
+  js.document.getElementById('player-select').value = ''
+  js.document.getElementById('team-select').value = ''
+  js.document.getElementById('Season-select').value = ''
+  #Se restablece la tabla
+  pane_df.object = df_rename
+
+def toggle_filter_menu():
+  menu = js.document.getElementById("filter-menu")
+  if menu.style.display == "none":
+    menu.style.display = "block"
+  else:
+    menu.style.display = "none"
+
+def toggle_menu():
+  menu = js.document.getElementById("menu")
+  if menu.style.display == "none":
+    menu.style.display = "block"
+  else:
+    menu.style.display = "none"
+
+def upDown():
+  #Se guardan los valores de las etiquetas
+  tipo = js.document.getElementById('type-select').value
+  asc = js.document.getElementById('asc-select').value
+
+  if asc == 'Ascendente':
+    ascendente = True
+  elif asc == 'Descendente':
+    ascendente = False
+  
+  if tipo:
+    df_sorted = df.sort_values(by=tipo, ascending=ascendente)
+    pane_df.object = df_sorted
+
+def clearUpDown():
+  #Se guardan los valores de las etiquetas
+  tipo = js.document.getElementById('type-select').value
+
+  if tipo:
+    js.document.getElementById('type-select').value = ''
+    pane_df.object = df
+
+  </py-script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>LOL Statium: Mapa de calor</title>
+
+  <!--Scripts para panel, bokeh y tabulator-->
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.3.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.3.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@holoviz/panel@0.13.1/dist/panel.min.js"></script>
+
+  <!--Links y Scripts de pyScript-->
+  <link rel="stylesheet" href="Styles/style.css" />
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+  <!--Configuraciones previas de pyScript-->
+  <py-config>
+    #Librerias a utilizar
+    packages = [
+    "https://cdn.holoviz.org/panel/0.14.4/dist/wheels/bokeh-2.4.3-py3-none-any.whl",
+    "pandas",
+    "panel==0.13.1",
+    "matplotlib",
+    "numpy","sqlite3"]
+
+    #Ficheros a utilizar
+    [[fetch]]
+    files = ['../Model/Database/db.sqlite','Img/summoners-rift.jpg']
+  </py-config>
+  
+</head>
+
+<body>
+
+<!--Barra de navegación-->
+  <div class="navbar">
+    <div class="menu-icon" py-click="toggle_menu()">&#9776;</div>
+    <a href="index.html" class="menu-item">Inicio</a>
+    <a href="metrics.html" class="menu-item">Métricas</a>  
+    <a href="heatmap.html" class="menu-item">Mapa de calor</a>
+    <a href="Picksbans.html" class="menu-item">Picks y Bans</a>    
+  </div>
+
+<!--Menu con más opciones de navegación-->
+  <div class="menu" id="menu">
+    <div class="menu-column">
+      <a href="metrics.html?2020">Métricas LEC 2020</a>
+      <a href="metrics.html?2021">Métricas LEC 2021</a>
+      <a href="metrics.html?2022">Métricas LEC 2022</a>
+      <a href="metrics.html?2023">Métricas LEC 2023</a>
+    </div>
+    <div class="menu-column">
+      <a href="heatmap.html?2020">Mapa de calor LEC 2020</a>
+      <a href="heatmap.html?2021">Mapa de calor LEC 2021</a>
+      <a href="heatmap.html?2022">Mapa de calor LEC 2022</a>
+      <a href="heatmap.html?2023">Mapa de calor LEC 2023</a>
+    </div>
+    <div class="menu-column">
+      <a href="Picksbans.html?2020">Picks y Bans LEC 2020</a>
+      <a href="Picksbans.html?2021">Picks y Bans LEC 2021</a>
+      <a href="Picksbans.html?2022">Picks y Bans LEC 2022</a>
+      <a href="Picksbans.html?2023">Picks y Bans LEC 2023</a>
+    </div>    
+  </div>
+  </div>    
+
+<!--Formulario para el filtrado general-->
+  <form class="form-grid">
+    <div class="input-group">
+      <label for="team">Equipo</label>
+      <select id="team-select" py-change="onChangingSelectedTeam()"></select>
+    </div>
+  
+    <div class="input-group">
+      <label for="player">Jugador</label>
+      <select id="player-select"></select>
+    </div>
+  
+    <div class="input-group">
+      <label for="Split">Temporada</label>
+      <select id="split-select" name="Split">
+        <option value=""></option>
+        <option value="Winter">Winter</option>
+        <option value="Spring">Spring</option>
+        <option value="Summer">Summer</option>
+      </select>
+    </div>
+  </form>
+  <!--Botones para filtrar o limpiar el filtro-->
+  <div class="button-group">
+    <input type="button" value="Filtrar" py-click="filterData()">
+    <input type="button" value="Limpiar filtros" py-click="clearFilters()">
+  </div>  
+
+<!--Header-->
+  <h1 id="header">Mapa de Calor</h1>
+
+<!--Contenido de la página-->
+  <div id="box">
+    <!--Etiqueta donde se posiciona la gráfica-->
+    <div id="graph"></div>
+
+    <!--Formulario para generar los distintos mapas de calor-->
+    <form>
+      <fieldset>
+        <div>
+          <div>
+            <input type="radio" id="Kill" name="options" checked  py-click="filterData()"/>
+            <label for="Choice1">Kills</label>
+          </div>
+          <div>
+            <input type="radio" id="Death" name="options" py-click="filterData()"/>
+            <label for="Choice2">Deaths</label>
+          </div>
+          <div>
+            <input type="radio" id="FirstBlood" name="options" py-click="filterData()"/>
+            <label for="Choice3">First Blood</label>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  
+<!--Script para la generación y Filtrado del gráfico-->
+  <py-script>
+#<!--Supresión de Warnings-->
+import warnings
+warnings.filterwarnings("ignore")
+#<!--Import JavaScript-->
+import js
+
+#<!--Imports para la manipulación y generación de los gráficos-->
+import sqlite3 as sql
+import panel as pn
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+import numpy as np
+
+import datetime
+
+#<!--Método para hacer transparente los espacios en blanco-->
+def transparent_cmap(cmap, N=255):
+  mycmap = cmap
+  mycmap._init()
+  mycmap._lut[:,-1] = np.linspace(0, 1, N+4)
+  return mycmap
+
+#<!--Método para generar el mapa de calor-->
+def heatMapper(df:pd.DataFrame,type:str='Kill',title:str='Heatmap', ax=None):  
+  df_heatmap = df[df['Type'] == type]
+  #<!--Se crea una figura de matplotlib con tamaño ajustado y color de la página-->
+  fig = Figure(figsize=(4, 4),facecolor="#161616")
+  ax = fig.add_subplot()
+  #<!-- Se crea el gráfico hist2d en la figura -->
+  img = plt.imread('Img/summoners-rift.jpg')
+  ax.imshow(img, extent=[0, 14820, 0, 14881])
+  ax.hist2d(df_heatmap['X'], df_heatmap['Y'], bins=50, cmap=transparent_cmap(plt.cm.Reds))
+  ax.set_xlim(0, 14820)
+  ax.set_ylim(0, 14881)
+  ax.set_aspect('equal')
+  ax.axis('off')
+  
+  # <!-- Se muestra la figura en el Panel -->
+  return ax.figure
+
+# <!-- Conexión con la base de datos SQLite-->
+con = sql.connect('../Model/Database/db.sqlite')
+# <!-- Se lee el url -->
+url = js.eval("window.location.href")
+
+if '?' in url:
+  year = url.split('?')[-1]
+else:
+  year = datetime.datetime.now().date().year
+
+js.document.getElementById('header').innerHTML = f"Mapa de calor {year}"
+
+# <!-- A través de una Query se pasan los datos a DataFrame -->
+df = pd.read_sql(f'SELECT * FROM Positions_LEC_{year}', con)
+out = heatMapper(df,title='Kills Heatmap')
+pane = pn.pane.Matplotlib(out).servable(target='graph')
+#df de los equipos sin duplicados
+df_teams = df[['Team']].drop_duplicates()
+#df de los jugadores sin duplicados
+df_players = df[['Player']].drop_duplicates()
+
+#<!--Se inicializan las opciones del formulario, tanto de equipo como de jugadores-->
+teams = '<option value=""></option>'
+players = '<option value=""></option>'
+
+#<!--Se genera el html con todas las opciones de equipos y jugadores-->
+for index, row in df_teams.iterrows():
+  teams = teams + '<option value="{}">{}</option>'.format(row['Team'],row['Team'])
+for index, row in df_players.iterrows():
+  players = players + '<option value="{}">{}</option>'.format(row['Player'],row['Player'])
+
+#<!--Se añaden las opciones al selector-->
+js.document.getElementById('team-select').innerHTML = teams
+js.document.getElementById('player-select').innerHTML = players
+
+#<!--Función que al cambiar la selección del equipo, muestra los jugadores de ese equipo.-->
+def onChangingSelectedTeam():
+  ts = Element('team-select').value
+  if ts != '':
+    js.document.getElementById('player-select').innerHTML = ''
+    df_filt = df[df.Team==ts][['Player']].drop_duplicates()
+    ps = '<option value=""></option>'
+    for index, row in df_filt.iterrows():
+      ps = ps + '<option value="{}">{}</option>'.format(row['Player'],row['Player'])
+    js.document.getElementById('player-select').innerHTML = ps
+  else:
+    js.document.getElementById('player-select').innerHTML = players
+
+#<!--Función para filtrar los datos leyendo el formulario-->
+def filterData():
+  #<!--Se guardan los valores de las etiquetas-->
+  selection = js.document.querySelector("[name='options']:checked").id
+  team = js.document.getElementById('team-select').value
+  player = js.document.getElementById('player-select').value      
+  split = js.document.getElementById('split-select').value
+        
+  query = []
+  filt = False
+  df_filt = df
+  #Se guarda la consulta al dataframe
+  if team != '':
+    query.append(f"Team == '{team}'")
+    filt = True
+  
+  if player != '':
+    query.append(f"Player.str.contains(@player)")
+    filt = True
+  
+  if split != '':
+    query.append(f"Split == '{split}'")
+    filt = True
+  if filt:
+    #Se hace la consulta
+    df_filt = df.query(" and ".join(query))
+
+  # Actualizar el mapa de calor
+  out = heatMapper(df_filt, selection, f'{selection} heatmap')
+
+  # Redibujar el panel
+  pane.object = out
+  
+#<!--Función para limpiar el filtro-->
+def clearFilters():
+  #<!--Se guardan los valores de las etiquetas-->
+  selection = js.document.querySelector("[name='options']:checked").id
+  team = js.document.getElementById('team-select').value
+  player = js.document.getElementById('player-select').value      
+  split = js.document.getElementById('split-select').value
+  
+  if not(team and player and split == ''):
+    #Se establecen los valores de las etiquetas del formulario a vacio
+    js.document.getElementById('player-select').value = ''
+    js.document.getElementById('team-select').value = ''
+    js.document.getElementById('split-select').value = ''
+
+    # <!--Se actualiza el mapa de calor-->
+    out = heatMapper(df, selection, f'{selection} heatmap')
+  
+    # <!--Se redibuja el panel-->
+    pane.object= out
+
+#<!--Función para abrir y cerrar el menu-->
+def toggle_menu():
+  menu = js.document.getElementById("menu")
+  if menu.style.display == "none":
+    menu.style.display = "block"
+  else:
+    menu.style.display = "none"
+  </py-script>
+</body>
+
+</html>

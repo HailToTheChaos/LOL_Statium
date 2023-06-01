@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Positions module &mdash; documentación de LOL Statium - 1.0.0</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            LOL Statium
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Positions module</a><ul>
+<li><a class="reference internal" href="#Positions.findDeaths"><code class="docutils literal notranslate"><span class="pre">findDeaths()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.findFirstBloodV5"><code class="docutils literal notranslate"><span class="pre">findFirstBloodV5()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.findKills"><code class="docutils literal notranslate"><span class="pre">findKills()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.findWards"><code class="docutils literal notranslate"><span class="pre">findWards()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.getDF_positions"><code class="docutils literal notranslate"><span class="pre">getDF_positions()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.getEvents"><code class="docutils literal notranslate"><span class="pre">getEvents()</span></code></a></li>
+<li><a class="reference internal" href="#Positions.getParticipantFrames"><code class="docutils literal notranslate"><span class="pre">getParticipantFrames()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LOL Statium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Positions module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Positions.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Positions">
+<span id="positions-module"></span><h1>Positions module<a class="headerlink" href="#module-Positions" title="Enlace permanente a este encabezado"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.findDeaths">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findDeaths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">participantFrames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findDeaths"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findDeaths" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para encontrar las muertes de los jugadores de una partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>split (str): Split de la partida
+week (str): Semana de la partida
+participantFrames (dict): Frames de los participantes de la partida
+json_data (dict): Json con los datos de la partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las posiciones de las muertes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.findFirstBloodV5">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findFirstBloodV5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findFirstBloodV5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findFirstBloodV5" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener un DataFrame con las primeras sangres de cada partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>split (str): Split de la partida
+week (str): Semana de la partida
+events (dict): json con los eventos
+json_data (dict): Json con los datos de la partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las First blood</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.findKills">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findKills</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findKills"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findKills" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para encontrar los asesinatos que se especifican en el json</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>split (str): Split de la partida
+week (str): Semana de la partida
+events (dict): json con los eventos
+json_data (dict): Json con los datos de la partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las kills</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.findWards">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findWards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">participantFrames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#findWards"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findWards" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para buscar las posiciones de los wards colocados por los jugadores en una partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>events (dict): Json con los eventos</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: DataFrame de los wards colocados</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.getDF_positions">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getDF_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#getDF_positions"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getDF_positions" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Función para sacar las posiciones de Kills, Deaths, FirstBlood y Wards</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>league (str): Liga a buscar
+season (str): Año de liga
+download (bool): Descarga en formato .csv</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las posiciones</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.getEvents">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#getEvents"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getEvents" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener los eventos del json de las partidas</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (dict): json del Timeline del juego en una partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: json con todos los eventos</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Positions.getParticipantFrames">
+<span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getParticipantFrames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#getParticipantFrames"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getParticipantFrames" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener los Frames de los participantes del json de la partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>json_data (dict): json del Timeline del juego en una partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: json con los participantFrames</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
