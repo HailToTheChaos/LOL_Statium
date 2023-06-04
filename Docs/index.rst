@@ -1,5 +1,5 @@
 .. LOL Statium documentation master file, created by
-   sphinx-quickstart on Wed May  3 19:50:14 2023.
+   sphinx-quickstart on Sun Jun  4 21:23:27 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

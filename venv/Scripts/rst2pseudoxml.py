@@ -1,4 +1,4 @@
-#!E:\CLASE\TFG\venv\Scripts\python.exe
+#!E:\CLASE\LOL_Statium\venv\Scripts\python.exe
 
 # $Id: rst2pseudoxml.py 4564 2006-05-21 20:44:42Z wiemann $
 # Author: David Goodger <goodger@python.org>

@@ -1,6 +1,6 @@
 import pandas as pd
 from Web_scrap import Scraping
-from Web_scrap import splits
+from Web_scrap import *
 from tqdm import tqdm
 
 
@@ -121,7 +121,7 @@ def getDF_MH(league: str, season: str, download: bool = False) -> pd.DataFrame:
     # Se obtienen los datos de la Liga en cierta temporada
     data = Scraping.games(league.upper(), season)
 
-    if data[0]:  # Si hay datos
+    if league in leagues and data[0]:  # Si hay datos
       # Se guardan en listas
         split = data[0]
         week = data[1]
@@ -150,8 +150,6 @@ def getDF_MH(league: str, season: str, download: bool = False) -> pd.DataFrame:
             print(
                 'Datos guardados en: Model\\Download\\MatchHistory-{}_{}.csv'.format(league.upper(), season))
 
-    else:  # Si no los hay
-        print('No hay datos')
 
     return df_final
 

@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>db module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>db module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -89,16 +91,19 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="db.Database.db_name">
-<span class="sig-name descname"><span class="pre">db_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Database\\\\db.sqlite'</span></em><a class="headerlink" href="#db.Database.db_name" title="Enlazar permanentemente con esta definición"></a></dt>
+<span class="sig-name descname"><span class="pre">db_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'db.sqlite'</span></em><a class="headerlink" href="#db.Database.db_name" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="db.Database.insert_dataframe">
 <span class="sig-name descname"><span class="pre">insert_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/db.html#Database.insert_dataframe"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#db.Database.insert_dataframe" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Función para insertar un Dataframe en la base de datos</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (pd.DataFrame): DataFrame a insertar
-table_name (str): Nombre de la tabla</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame a insertar</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – Nombre de la tabla</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -115,7 +120,7 @@ table_name (str): Nombre de la tabla</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

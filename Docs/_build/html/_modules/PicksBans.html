@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PicksBans &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>PicksBans &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -247,7 +249,7 @@
     <span class="k">return</span> <span class="n">df_global</span></div>
 
 
-<div class="viewcode-block" id="getDF_picksBans"><a class="viewcode-back" href="../PicksBans.html#PicksBans.getDF_picksBans">[documentos]</a><span class="k">def</span> <span class="nf">getDF_picksBans</span><span class="p">(</span><span class="n">league</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="getDF_picksBans"><a class="viewcode-back" href="../PicksBans.html#PicksBans.getDF_picksBans">[documentos]</a><span class="k">def</span> <span class="nf">getDF_picksBans</span><span class="p">(</span><span class="n">league</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Método que obtiene todos los enlaces de una temporada, de una región y un año</span>
 <span class="sd">    en concreto y los transforma en un Dataframe.</span>
 <span class="sd">    Finalmente genera un csv</span>
@@ -258,19 +260,19 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        pd.DataFrame: Dataframe final de una temporada        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Se inicializa el df final</span>
+    <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
+    <span class="c1"># Se buscan los datos </span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="c1"># Si hay datos</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">:</span>  <span class="c1"># Si hay datos</span>
         <span class="c1"># Se guardan en listas</span>
         <span class="n">ssons</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">weeks</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">blueTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">redTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">links</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
-
-        <span class="c1"># Se inicializa el df final</span>
-        <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
         <span class="c1"># Se recorren las listas para meter los datos en el DF final</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;MB&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Picks y bans </span><span class="si">{</span><span class="n">league</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s1">&#39;Blue&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -282,15 +284,13 @@
 
         <span class="c1"># Se crea el csv</span>
         <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
-            <span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
-                <span class="sa">r</span><span class="s1">&#39;Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">r</span><span class="s1">&#39;Datos guardados en: Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">df_final</span>
+            <span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Model</span><span class="se">\\</span><span class="s1">Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Model</span><span class="se">\\</span><span class="s1">Datos guardados en: Download</span><span class="se">\\</span><span class="s1">Picks&amp;Bans-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">))</span>
 
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># Si no los hay</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No hay datos&#39;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No hay datos&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_final</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -305,7 +305,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

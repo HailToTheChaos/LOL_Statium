@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>metadata module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>Metadata module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -41,7 +43,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">metadata module</a></li>
+<li><a class="reference internal" href="#">Metadata module</a><ul>
+<li><a class="reference internal" href="#Metadata.bansCont"><code class="docutils literal notranslate"><span class="pre">bansCont()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.getChampionId"><code class="docutils literal notranslate"><span class="pre">getChampionId()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.getDF_metaData"><code class="docutils literal notranslate"><span class="pre">getDF_metaData()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.kda"><code class="docutils literal notranslate"><span class="pre">kda()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.metaDat"><code class="docutils literal notranslate"><span class="pre">metaDat()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.presence"><code class="docutils literal notranslate"><span class="pre">presence()</span></code></a></li>
+<li><a class="reference internal" href="#Metadata.winLost"><code class="docutils literal notranslate"><span class="pre">winLost()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -58,9 +69,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">metadata module</li>
+      <li class="breadcrumb-item active">Metadata module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/metadata.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+            <a href="_sources/Metadata.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
       </li>
   </ul>
   <hr/>
@@ -68,8 +79,155 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="metadata-module">
-<h1>metadata module<a class="headerlink" href="#metadata-module" title="Enlace permanente a este encabezado"></a></h1>
+  <section id="module-Metadata">
+<span id="metadata-module"></span><h1>Metadata module<a class="headerlink" href="#module-Metadata" title="Enlace permanente a este encabezado"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.bansCont">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">bansCont</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Metadata.html#bansCont"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.bansCont" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función toma un objeto JSON y un DataFrame de Pandas, itera a través del objeto JSON para extraer
+las prohibiciones de campeones y su turno de selección para cada equipo, agrega una nueva columna al
+DataFrame que indica si un campeón fue prohibido o no, y actualiza el «Promedio». BT» en el
+DataFrame con el turno de selección de cada campeón prohibido antes de devolver un subconjunto del
+DataFrame con solo los campeones prohibidos y su turno de selección.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json</strong> (<em>dict</em>) – Un diccionario que contiene información sobre un juego de League of Legends,</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>incluidos los equipos y las prohibiciones de sus campeones.</dt><dd><p>data (pd.DataFrame): Un DataFrame de pandas que contiene información sobre campeones en un juego</p>
+</dd>
+</dl>
+<p>de League of Legends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un DataFrame de pandas que incluye el nombre del campeón, si fueron baneados o no (1 para baneado,</p>
+</dd>
+</dl>
+<p>0 para no baneado) y el turno de baneo promedio para cada campeón baneado. El DataFrame solo incluye
+filas donde el campeón fue baneado.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.getChampionId">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">getChampionId</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/Metadata.html#getChampionId"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.getChampionId" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Esta función recupera una lista de claves e ID de campeones de la API de League of Legends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>la primera lista contiene las claves de todos los campeones del</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>una tupla que contiene dos listas</p>
+</dd>
+</dl>
+<p>juego League of Legends y la segunda lista contiene los ID de todos los campeones del juego.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.getDF_metaData">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">getDF_metaData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Metadata.html#getDF_metaData"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.getDF_metaData" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Esta función recupera los metadatos de una liga y una temporada determinadas y, opcionalmente, los
+descarga como un archivo CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>league</strong> (<em>str</em>) – una cadena que representa el nombre de la liga de League of Legends para la que</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>desea recuperar los metadatos.</dt><dd><p>season (str): Una cadena que representa la temporada para la que se recuperan los metadatos.
+download (bool): Un parámetro booleano que indica si descargar el DataFrame resultante como un</p>
+</dd>
+</dl>
+<p>archivo CSV o no. Si se establece en True, la función guardará el DataFrame como un archivo CSV en
+la carpeta «Descargar». Si se establece en False, la función solo devolverá el DataFrame sin
+guardarlo. Defaults to False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un DataFrame de pandas que contiene metadatos para una liga y una temporada determinadas, con</p>
+</dd>
+</dl>
+<p>opciones para descargar los datos como un archivo CSV.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.kda">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">kda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Metadata.html#kda"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.kda" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función toma un DataFrame de pandas de los datos de los partidos de League of Legends y devuelve
+un DataFrame modificado con columnas adicionales para KDA, tasa de victorias y otras estadísticas
+agrupadas por jugador y campeón.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em>) – El marco de datos de entrada que contiene datos sobre los partidos de League</p>
+</dd>
+</dl>
+<p>of Legends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un marco de datos de pandas con columnas para el nombre del jugador, el equipo, el lado, la</p>
+</dd>
+</dl>
+<p>división, la cantidad de juegos jugados, el nombre del campeón, la clave del campeón, la cantidad de
+victorias y derrotas, la cantidad de muertes, asistencias y muertes tanto para el jugador como para
+el campeón, recuento de bloqueos, BT promedio (variable desconocida), tasa de ganancias y KDA tanto
+para el jugador como para el campeón.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.metaDat">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">metaDat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabla</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Metadata.html#metaDat"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.metaDat" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función toma un DataFrame, un diccionario y una cadena como entradas, realiza algunas operaciones
+en ellos y devuelve un nuevo DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tabla</strong> (<em>pd.DataFrame</em>) – Un DataFrame de pandas que contiene datos sobre campeones en una liga o</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>torneo en particular.</dt><dd><p>json (dict): Es un diccionario que contiene datos relacionados con los partidos de League of</p>
+</dd>
+</dl>
+<p>Legends, como selecciones y prohibiciones de campeones, estadísticas de jugadores y resultados de
+juegos.</p>
+<blockquote>
+<div><p>split (str): El parámetro «split» es una cadena que representa la temporada actual o el período de</p>
+</div></blockquote>
+<p>tiempo en una liga o torneo competitivo. Se utiliza para etiquetar los datos en el DataFrame
+devuelto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un DataFrame de pandas llamado «metaf».</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.presence">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">presence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Metadata.html#presence"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.presence" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Metadata.winLost">
+<span class="sig-prename descclassname"><span class="pre">Metadata.</span></span><span class="sig-name descname"><span class="pre">winLost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Metadata.html#winLost"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Metadata.winLost" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función toma un objeto JSON que contiene datos sobre un juego de League of Legends y devuelve un
+DataFrame de pandas con información sobre el rendimiento de cada jugador en el juego, incluido su
+registro de victorias/derrotas, asesinatos, muertes, asistencias y campeón jugado.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json</strong> (<em>dict</em>) – El parámetro de entrada es un diccionario llamado «json» que contiene información</p>
+</dd>
+</dl>
+<p>sobre un juego de League of Legends. La función procesa esta información y devuelve un DataFrame de
+pandas que contiene estadísticas sobre los jugadores en el juego.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un marco de datos de pandas con columnas para ChampionName, SumerName, gameId, juegos, Win, loss,</p>
+</dd>
+</dl>
+<p>kills, death, assists y teamId. Los datos en DataFrame se basan en el diccionario JSON de entrada,
+que se espera que contenga información sobre un juego de League of Legends. La función primero
+intenta extraer los datos necesarios asumiendo que el JSON está en un formato determinado, y</p>
+</dd></dl>
+
 </section>
 
 
@@ -80,7 +238,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

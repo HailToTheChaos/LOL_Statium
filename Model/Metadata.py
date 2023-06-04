@@ -1,6 +1,6 @@
 import pandas as pd
 from Web_scrap import Scraping
-from Web_scrap import splits
+from Web_scrap import *
 from tqdm import tqdm
 import requests
 from os import system
@@ -239,31 +239,34 @@ def getDF_metaData(league:str, season:str, download:bool=False)->pd.DataFrame:
       un DataFrame de pandas que contiene metadatos para una liga y una temporada determinadas, con
     opciones para descargar los datos como un archivo CSV.
     """
-    tabla = pd.DataFrame()
-    dat = getChampionId()
-    tabla['championName'] = dat[1]
-    tabla['key'] = dat[0]
-    data = Scraping.games(league.upper(), season)
-    split = data[0]
-    links = data[4]
-    df_final = pd.DataFrame()
+    result = pd.DataFrame()
+    if league in leagues:
+        tabla = pd.DataFrame()
+        dat = getChampionId()
+        tabla['championName'] = dat[1]
+        tabla['key'] = dat[0]
+        data = Scraping.games(league.upper(), season)
+        split = data[0]
+        links = data[4]
+        df_final = pd.DataFrame()
+    
+        for i in tqdm(range(0, len(links)), unit='MB', desc=f'MetaDatos {league} {season}', colour='Magenta', leave=False):
+            df_final = pd.concat(
+                [df_final, metaDat(tabla, Scraping.getJson(links[i]), split[i])])
+        pd.set_option('display.max_rows', None)
+        result = df_final.sort_values(
+            by=['championName'], ascending=False).reset_index().drop(['index'], axis=1)
+        result = kda(result)
+        result = presence(result)
+        result = (result.sort_values(
+            by=['Presence'], ascending=False).reset_index().drop(['index'], axis=1))
+    
+        # Se crea el csv
+        if download:
+            result.to_csv(
+                f'Model\\Download\\Meta-{league.upper()}_{split}.csv', index=False)
+            print('Datos guardados en: Model\\Download\\Meta-{}_{}.csv'.format(league.upper(), split))
 
-    for i in tqdm(range(0, len(links)), unit='MB', desc=f'MetaDatos {league} {season}', colour='Magenta', leave=False):
-        df_final = pd.concat(
-            [df_final, metaDat(tabla, Scraping.getJson(links[i]), split[i])])
-    pd.set_option('display.max_rows', None)
-    result = df_final.sort_values(
-        by=['championName'], ascending=False).reset_index().drop(['index'], axis=1)
-    result = kda(result)
-    result = presence(result)
-    result = (result.sort_values(
-        by=['Presence'], ascending=False).reset_index().drop(['index'], axis=1))
-
-    # Se crea el csv
-    if download:
-        result.to_csv(
-            f'Model\\Download\\Meta-{league.upper()}_{split}.csv', index=False)
-        print('Datos guardados en: Model\\Download\\Meta-{}_{}.csv'.format(league.upper(), split))
     return result
 
 

@@ -35,13 +35,15 @@ class Scraping:
         try:
             # hago una request al enlace
             response = requests.get(enlace)
-            # paso la request a texto para poder tratar con el
-            html = response.text
-            # extraigo el json contenido dentro de la etiqueta textArea del HTML
-            json_finded = BeautifulSoup(html, 'html.parser').find('textarea')
-            # genero el json, pasando el objeto anterior a string y quitandole los espacios
-            # del principio y del final. Devuelvo el JSON generado
-            return json.loads(json_finded.string.strip())
+
+            if (response.ok):
+                # paso la request a texto para poder tratar con el
+                html = response.text
+                # extraigo el json contenido dentro de la etiqueta textArea del HTML
+                json_finded = BeautifulSoup(html, 'html.parser').find('textarea')
+                # genero el json, pasando el objeto anterior a string y quitandole los espacios
+                # del principio y del final. Devuelvo el JSON generado
+                return json.loads(json_finded.string.strip())
 
         # Error de conexion
         except (requests.ConnectionError):
@@ -94,7 +96,7 @@ class Scraping:
             if participant['participantId'] == id:          
                 return participant['player']['summonerName']
 
-    def games(league: str, season: str)->list[list,list,list,list,list]:           
+    def games(league: str, season: str)->list[list:str,list:str,list:str,list:str,list:str]:           
         """
         La función "juegos" recupera datos de un sitio web para una liga y temporada determinadas, y
         devuelve listas de divisiones, semanas, equipos azules, equipos rojos y enlaces a datos del

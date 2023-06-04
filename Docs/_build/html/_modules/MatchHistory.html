@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MatchHistory &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>MatchHistory &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
@@ -66,26 +68,164 @@
              
   <h1>Código fuente para MatchHistory</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">web_scrap</span> <span class="kn">import</span> <span class="n">Scraping</span>
-<span class="kn">from</span> <span class="nn">web_scrap</span> <span class="kn">import</span> <span class="n">seasons</span>
+<span class="kn">from</span> <span class="nn">Web_scrap</span> <span class="kn">import</span> <span class="n">Scraping</span>
+<span class="kn">from</span> <span class="nn">Web_scrap</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
-<div class="viewcode-block" id="matchHistory"><a class="viewcode-back" href="../MatchHistory.html#MatchHistory.matchHistory">[documentos]</a><span class="k">def</span> <span class="nf">matchHistory</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="c1">#Normalizo el json para tratar los datos por jugador</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span><span class="s1">&#39;participants&#39;</span><span class="p">)</span>
 
-    <span class="c1">#Extraigo los datos que quiero dentro del df normalizado</span>
-    <span class="n">df_final</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;summonerName&#39;</span><span class="p">,</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span><span class="s1">&#39;challenges.kda&#39;</span><span class="p">]]</span>
-    <span class="n">df_gold_dmg</span><span class="o">=</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;goldEarned&#39;</span><span class="p">,</span><span class="s1">&#39;challenges.teamDamagePercentage&#39;</span><span class="p">]]</span>
-    <span class="n">df_gold_dmg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_gold_dmg</span><span class="p">,</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;goldEarned&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;challenges.teamDamagePercentage&#39;</span><span class="p">]])],</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">df_cs</span> <span class="o">=</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;challenges.alliedJungleMonsterKills&#39;</span><span class="p">,</span><span class="s1">&#39;challenges.enemyJungleMonsterKills&#39;</span><span class="p">]]</span>
-    <span class="n">df_cs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_cs</span><span class="p">,</span><span class="n">df_cs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;challenges.alliedJungleMonsterKills &#39;</span><span class="p">:</span><span class="s1">&#39;AlliedCS&#39;</span><span class="p">,</span><span class="s1">&#39;challenges.enemyJungleMonsterKills&#39;</span> <span class="p">:</span> <span class="s1">&#39;EnemyCS&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;Jungle Share&#39;</span><span class="p">})</span>
+<div class="viewcode-block" id="matchHistory"><a class="viewcode-back" href="../MatchHistory.html#MatchHistory.matchHistory">[documentos]</a><span class="k">def</span> <span class="nf">matchHistory</span><span class="p">(</span><span class="n">json_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">teams</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">week</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">V4</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    La función toma datos JSON, equipos, división, semana y un valor booleano y devuelve un Pandas</span>
+<span class="sd">    DataFrame con datos del historial de partidos para cada jugador.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      json_data (dict): un diccionario que contiene los datos de la coincidencia en formato JSON</span>
+<span class="sd">      teams (str): una cadena que representa a los dos equipos que jugaron el partido</span>
+<span class="sd">      split (str): El split de la liga o torneo al que pertenece el partido (por ejemplo, Spring Split,</span>
+<span class="sd">    Summer Split).</span>
+<span class="sd">      week (str): El parámetro semana es una cadena que representa el número de semana del historial de</span>
+<span class="sd">    partidos.</span>
+<span class="sd">      V4 (bool): Un parámetro booleano que indica si los datos están en formato V4 o no. Defaults to</span>
+<span class="sd">    False</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      La función `matchHistory` devuelve un Pandas DataFrame que contiene datos del historial de</span>
+<span class="sd">    partidos para un juego, división y semana determinados de League of Legends, así como los equipos</span>
+<span class="sd">    involucrados en el juego. La función toma un objeto JSON que contiene los datos de la coincidencia,</span>
+<span class="sd">    así como argumentos opcionales sobre si los datos están en formato V4 y si se incluyen datos de la</span>
+<span class="sd">    jungla.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Normalizo el json para tratar los datos por jugador</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="s1">&#39;participants&#39;</span><span class="p">)</span>
+    <span class="c1"># Inicializo el dataFrame del Match History</span>
+    <span class="n">df_MH</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">V4</span><span class="p">:</span>
+            <span class="c1"># Extraigo los datos que quiero dentro del df normalizado</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;participantId&#39;</span><span class="p">,</span> <span class="s1">&#39;championId&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.kills&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.deaths&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.assists&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;stats.goldEarned&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.neutralMinionsKilledTeamJungle&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.neutralMinionsKilledEnemyJungle&#39;</span><span class="p">]]</span>
+
+            <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">champions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;participantId&#39;</span><span class="p">]:</span>
+                <span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Scraping</span><span class="o">.</span><span class="n">getParticipantByIdV4</span><span class="p">(</span>
+                    <span class="n">json_data</span><span class="p">,</span> <span class="n">participant</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">champ</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;championId&#39;</span><span class="p">]:</span>
+                <span class="n">champions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Scraping</span><span class="o">.</span><span class="n">getChampionById</span><span class="p">(</span><span class="n">champ</span><span class="p">))</span>
+
+            <span class="n">df_players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">players</span><span class="p">)</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Team&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Player&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_players</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Champion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">champions</span><span class="p">)</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;KDA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;stats.kills&#39;</span><span class="p">,</span> <span class="s1">&#39;stats.assists&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;stats.deaths&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Gold&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;stats.goldEarned&#39;</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;TeamJungle Kills&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;stats.neutralMinionsKilledTeamJungle&#39;</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;EnemyJungle Kills&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;stats.neutralMinionsKilledEnemyJungle&#39;</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Jungle Share&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_MH</span><span class="p">[[</span>
+                <span class="s1">&#39;TeamJungle Kills&#39;</span><span class="p">,</span> <span class="s1">&#39;EnemyJungle Kills&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">V4</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># Ya que el nombre del jugador se compone por equipo y jugador, lo divido en dos columnas</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Team&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s1">&#39;Player&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;summonerName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># Extraigo los datos que quiero dentro del df normalizado</span>
+            <span class="n">df_MH</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_MH</span><span class="p">,</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;championName&#39;</span><span class="p">,</span> <span class="s1">&#39;challenges.kda&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;goldEarned&#39;</span><span class="p">,</span> <span class="s1">&#39;challenges.teamDamagePercentage&#39;</span><span class="p">]]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="c1"># Se obtiene el Gold / Damage, que es el calculo del oro obtenido entre el porcentaje de daño de equipo</span>
+            <span class="n">df_MH</span><span class="p">[</span><span class="s2">&quot;Gold/Damage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;goldEarned&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+                <span class="n">df</span><span class="p">[</span><span class="s1">&#39;challenges.teamDamagePercentage&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="c1"># Se obtiene el Jugle Share, que es la suma de las kills de la jungla en ambos lados</span>
+            <span class="n">df_cs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;challenges.alliedJungleMonsterKills&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;challenges.enemyJungleMonsterKills&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">df_cs</span><span class="p">[</span><span class="s1">&#39;Jungle Share&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_cs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Se le añade jungle share al df final</span>
+            <span class="n">df_MH</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_MH</span><span class="p">,</span> <span class="n">df_cs</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Se cambia el nombre de las columnas</span>
+            <span class="n">df_MH</span> <span class="o">=</span> <span class="n">df_MH</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;championName&#39;</span><span class="p">:</span> <span class="s1">&#39;Champion&#39;</span><span class="p">,</span> <span class="s1">&#39;challenges.kda&#39;</span><span class="p">:</span> <span class="s1">&#39;KDA&#39;</span><span class="p">,</span> <span class="s1">&#39;goldEarned&#39;</span><span class="p">:</span> <span class="s1">&#39;Gold&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;challenges.teamDamagePercentage&#39;</span><span class="p">:</span> <span class="s1">&#39;TDamage&#39;</span><span class="p">,</span> <span class="s1">&#39;challenges.alliedJungleMonsterKills&#39;</span><span class="p">:</span> <span class="s1">&#39;TeamJungle Kills&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;challenges.enemyJungleMonsterKills&#39;</span><span class="p">:</span> <span class="s1">&#39;EnemyJungle Kills&#39;</span><span class="p">})</span>
+
+        <span class="c1"># Se inserta el Split, la semana y el juego a la que pertenece el partido</span>
+        <span class="n">df_MH</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Split&#39;</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span>
+        <span class="n">df_MH</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Week&#39;</span><span class="p">,</span> <span class="n">week</span><span class="p">)</span>
+        <span class="n">df_MH</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Game&#39;</span><span class="p">,</span> <span class="n">teams</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df_MH</span>
     
-    <span class="k">return</span> <span class="n">df_gold_dmg</span></div>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></div>
 
-<span class="n">json_data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span><span class="s1">&#39;https://lol.fandom.com/wiki/V5_data:ESPORTSTMNT05_3223249?action=edit&#39;</span><span class="p">)</span>
+    
 
-<span class="nb">print</span><span class="p">(</span><span class="n">matchHistory</span><span class="p">(</span><span class="n">json_data</span><span class="p">))</span>
+
+<div class="viewcode-block" id="getDF_MH"><a class="viewcode-back" href="../MatchHistory.html#MatchHistory.getDF_MH">[documentos]</a><span class="k">def</span> <span class="nf">getDF_MH</span><span class="p">(</span><span class="n">league</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Esta función extrae los datos del historial de partidos de una liga y una temporada determinadas, y</span>
+<span class="sd">    los devuelve como un marco de datos de pandas, con la opción de descargarlo como un archivo CSV.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      league (str): una cadena que representa el nombre de la liga para la que queremos obtener los</span>
+<span class="sd">    datos del historial de partidos.</span>
+<span class="sd">      season (str): El parámetro de temporada es una cadena que representa el año o rango de años para</span>
+<span class="sd">    los que el usuario desea obtener los datos del historial de partidos. Por ejemplo, &quot;2021&quot; o</span>
+<span class="sd">    &quot;2019-2020&quot;.</span>
+<span class="sd">      download (bool): Un parámetro booleano que indica si descargar el DataFrame resultante como un</span>
+<span class="sd">    archivo CSV o no. Si se establece en True, la función guardará el DataFrame como un archivo CSV en</span>
+<span class="sd">    la carpeta &quot;Descargar&quot; con el nombre &quot;Picks&amp;Bans-{liga}_{temporada}.csv&quot;. Si se establece en Falso,</span>
+<span class="sd">    el. Defaults to False</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      un marco de datos de pandas que contiene datos del historial de partidos para una liga y una</span>
+<span class="sd">    temporada determinadas. Si el parámetro de descarga se establece en Verdadero, la función también</span>
+<span class="sd">    guardará los datos como un archivo CSV en una carpeta &quot;Descargar&quot;. Si no hay datos disponibles para</span>
+<span class="sd">    la liga y la temporada dadas, la función imprimirá &quot;No hay datos&quot; y devolverá Ninguno.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Se inicializa el df final</span>
+    <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="c1"># Se obtienen los datos de la Liga en cierta temporada</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Scraping</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">league</span> <span class="ow">in</span> <span class="n">leagues</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="c1"># Si hay datos</span>
+      <span class="c1"># Se guardan en listas</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">week</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">BlueTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">RedTeams</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+        <span class="c1"># Se recorren las listas para meter los datos en el DF final</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">links</span><span class="p">)),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;MB&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Match History </span><span class="si">{</span><span class="n">league</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">colour</span><span class="o">=</span><span class="s2">&quot;Cyan&quot;</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;V4&#39;</span> <span class="ow">in</span> <span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">V4</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">V4</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="n">teams</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">BlueTeams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">RedTeams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">df_match</span> <span class="o">=</span> <span class="n">matchHistory</span><span class="p">(</span><span class="n">Scraping</span><span class="o">.</span><span class="n">getJson</span><span class="p">(</span>
+                <span class="n">links</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">teams</span><span class="p">,</span> <span class="n">split</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">week</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">V4</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">df_match</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_final</span><span class="p">,</span> <span class="n">df_match</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">download</span><span class="p">:</span>  <span class="c1"># Se crea el csv</span>
+            <span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Model</span><span class="se">\\</span><span class="s1">Download</span><span class="se">\\</span><span class="s1">MatchHistory-</span><span class="si">{</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s1">&#39;Datos guardados en: Model</span><span class="se">\\</span><span class="s1">Download</span><span class="se">\\</span><span class="s1">MatchHistory-</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">league</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">season</span><span class="p">))</span>
+
+
+    <span class="k">return</span> <span class="n">df_final</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">getDF_MH</span><span class="p">(</span><span class="s1">&#39;LEC&#39;</span><span class="p">,</span> <span class="s1">&#39;2022&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+ 
 </pre></div>
 
            </div>
@@ -95,7 +235,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

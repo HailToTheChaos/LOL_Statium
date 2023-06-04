@@ -1,12 +1,12 @@
-Code
-====
+Model
+=====
 
 .. toctree::
    :maxdepth: 4
 
    MatchHistory
-   PicksBans
+   Metadata
+   Positions
+   Web_scrap
    db
-   lol_stats
-   metadata
-   web_scrap
+   main

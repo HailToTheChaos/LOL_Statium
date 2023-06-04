@@ -29,7 +29,7 @@
 
     #Ficheros a utilizar
     [[fetch]]
-    files = ['../Database/db.sqlite']
+    files = ['../Model/Database/db.sqlite']
   </py-config>
 </head>
 <body>
@@ -140,7 +140,7 @@ import js
 import datetime
 
 #<!--Lectura base de datos-->
-con = sql.connect('../Database/db.sqlite')
+con = sql.connect('../Model/Database/db.sqlite')
 
 url = js.eval("window.location.href")
 if '?' in url:

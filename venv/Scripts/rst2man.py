@@ -1,4 +1,4 @@
-#!E:\CLASE\TFG\venv\Scripts\python.exe
+#!E:\CLASE\LOL_Statium\venv\Scripts\python.exe
 
 # Author:
 # Contact: grubert@users.sf.net

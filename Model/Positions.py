@@ -1,5 +1,5 @@
 import pandas as pd
-from Web_scrap import Scraping
+from Web_scrap import *
 from tqdm import tqdm
 import math
 import json
@@ -232,70 +232,72 @@ def getDF_positions(league: str, season: str, download: bool = False) -> pd.Data
     Returns:
         pd.DataFrame: DataFrame con las posiciones
     """
-    # Se obtienen los datos de la season
-    data = Scraping.games(league.upper(), season)
+    df_final = pd.DataFrame()
+    if league in leagues and season !='' and season.isdigit:
+        # Se obtienen los datos de la season
+        data = Scraping.games(league.upper(), season)
 
-    # Se guardan los datos de la season en variables
-    splits = data[0]
-    weeks = data[1]
-    links = data[4]
+        # Se guardan los datos de la season en variables
+        splits = data[0]
+        weeks = data[1]
+        links = data[4]
 
-    # Se crean los DataFrames vacios de las posiciones divididos por tipos
-    df_firstblood = pd.DataFrame()
-    df_deaths = pd.DataFrame()
-    df_kills = pd.DataFrame()
-    df_wards = pd.DataFrame()
+        # Se crean los DataFrames vacios de las posiciones divididos por tipos
+        df_firstblood = pd.DataFrame()
+        df_deaths = pd.DataFrame()
+        df_kills = pd.DataFrame()
+        df_wards = pd.DataFrame()
 
-    # Se recorren las partidas de la season
-    for i in tqdm(range(0, len(links)), unit='MB',colour='Red', desc=f'Positions Kills, deaths & first blood. {league} {season}', leave=False):
-        # Se obtiene el json con el time line de la partida
-        json_timeline = Scraping.getJson(links[i], TL=True)
-        # Se obtiene el Json con los datos de la partida
-        json_data = Scraping.getJson(links[i])
-        # Se obtienen todos los frames de los participantes de la partida
-        pFrames = getParticipantFrames(json_timeline)
-        # Se obtienen todos los eventos de la partida
-        events = getEvents(json_timeline)
+        # Se recorren las partidas de la season
+        for i in tqdm(range(0, len(links)), unit='MB',colour='Red', desc=f'Positions Kills, deaths & first blood. {league} {season}', leave=False):
+            # Se obtiene el json con el time line de la partida
+            json_timeline = Scraping.getJson(links[i], TL=True)
+            # Se obtiene el Json con los datos de la partida
+            json_data = Scraping.getJson(links[i])
+            # Se obtienen todos los frames de los participantes de la partida
+            pFrames = getParticipantFrames(json_timeline)
+            # Se obtienen todos los eventos de la partida
+            events = getEvents(json_timeline)
 
-        # Se concatenan las posiciones de los asesinatos
-        df_kills = pd.concat([df_kills, findKills(splits[i], weeks[i],
-                                                  events, json_data)], ignore_index=True)
+            # Se concatenan las posiciones de los asesinatos
+            df_kills = pd.concat([df_kills, findKills(splits[i], weeks[i],
+                                                      events, json_data)], ignore_index=True)
 
-        if 'V5' in links[i]:  # Solo para la versión 5 de los datos obtenidos en lol.fandom.com
-            # Se concatenan las posiciones de las primeras sangres
-            df_firstblood = pd.concat(
-                [df_firstblood, findFirstBloodV5(splits[i], weeks[i], events, json_data)], ignore_index=True)
+            if 'V5' in links[i]:  # Solo para la versión 5 de los datos obtenidos en lol.fandom.com
+                # Se concatenan las posiciones de las primeras sangres
+                df_firstblood = pd.concat(
+                    [df_firstblood, findFirstBloodV5(splits[i], weeks[i], events, json_data)], ignore_index=True)
 
-            # Se concatenan las posiciones de los Wards colocados
-            df_wards = pd.concat([df_wards, findWards(
-                splits[i], weeks[i], events, pFrames, json_data)], ignore_index=True)
+                # Se concatenan las posiciones de los Wards colocados
+                df_wards = pd.concat([df_wards, findWards(
+                    splits[i], weeks[i], events, pFrames, json_data)], ignore_index=True)
 
-            # Se concatenan las posiciones de las muertes
-            df_deaths = pd.concat([df_deaths, findDeaths(splits[i], weeks[i],
-                                                         pFrames, json_data)], ignore_index=True)
+                # Se concatenan las posiciones de las muertes
+                df_deaths = pd.concat([df_deaths, findDeaths(splits[i], weeks[i],
+                                                             pFrames, json_data)], ignore_index=True)
 
-        elif 'V4' in links[i]:
-            # Se concatenan las posiciones de las primeras sangres
-            df_firstblood = pd.concat(
-                [df_firstblood, df_kills.iloc[:1]], ignore_index=True)
+            elif 'V4' in links[i]:
+                # Se concatenan las posiciones de las primeras sangres
+                df_firstblood = pd.concat(
+                    [df_firstblood, df_kills.iloc[:1]], ignore_index=True)
 
-    # Se insertan los tipos
-    df_kills.insert(2, 'Type', 'Kill')
-    df_firstblood.insert(2, 'Type', 'FirstBlood')
-    df_deaths.insert(2, 'Type', 'Death')
-    df_wards.insert(2, 'Type', 'Ward')
+        # Se insertan los tipos
+        df_kills.insert(2, 'Type', 'Kill')
+        df_firstblood.insert(2, 'Type', 'FirstBlood')
+        df_deaths.insert(2, 'Type', 'Death')
+        df_wards.insert(2, 'Type', 'Ward')
 
-    # Se crea un DataFrame global con todas las posiciones
-    df_final = pd.concat(
-        [df_kills, df_firstblood, df_deaths, df_wards], ignore_index=True)
+        # Se crea un DataFrame global con todas las posiciones
+        df_final = pd.concat(
+            [df_kills, df_firstblood, df_deaths, df_wards], ignore_index=True)
 
-    # Se crea el csv
-    if download:
-        df_final.to_csv(
-            'Model\\Download\\Positions-{}_{}.csv'.format(league.upper(), season), index=False)
-        print('Model\\Datos guardados en: Download\\Positions-{}_{}.csv'.format(league.upper(), season))
+        # Se crea el csv
+        if download:
+            df_final.to_csv(
+                'Model\\Download\\Positions-{}_{}.csv'.format(league.upper(), season), index=False)
+            print('Model\\Datos guardados en: Download\\Positions-{}_{}.csv'.format(league.upper(), season))
 
-    # Devolvemos el DataFrame
+        # Devolvemos el DataFrame
     return df_final
 
 

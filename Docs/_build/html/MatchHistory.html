@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MatchHistory module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>MatchHistory module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -79,9 +81,12 @@
 <span class="sig-prename descclassname"><span class="pre">MatchHistory.</span></span><span class="sig-name descname"><span class="pre">getDF_MH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/MatchHistory.html#getDF_MH"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#MatchHistory.getDF_MH" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Esta función extrae los datos del historial de partidos de una liga y una temporada determinadas, y
 los devuelve como un marco de datos de pandas, con la opción de descargarlo como un archivo CSV.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>league (str): una cadena que representa el nombre de la liga para la que queremos obtener los</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>league</strong> (<em>str</em>) – una cadena que representa el nombre de la liga para la que queremos obtener los</p>
 </dd>
+</dl>
+<dl class="simple">
 <dt>datos del historial de partidos.</dt><dd><p>season (str): El parámetro de temporada es una cadena que representa el año o rango de años para</p>
 </dd>
 </dl>
@@ -93,8 +98,9 @@ los devuelve como un marco de datos de pandas, con la opción de descargarlo com
 <p>archivo CSV o no. Si se establece en True, la función guardará el DataFrame como un archivo CSV en
 la carpeta «Descargar» con el nombre «Picks&amp;Bans-{liga}_{temporada}.csv». Si se establece en Falso,
 el. Defaults to False</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>un marco de datos de pandas que contiene datos del historial de partidos para una liga y una</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un marco de datos de pandas que contiene datos del historial de partidos para una liga y una</p>
 </dd>
 </dl>
 <p>temporada determinadas. Si el parámetro de descarga se establece en Verdadero, la función también
@@ -104,24 +110,34 @@ la liga y la temporada dadas, la función imprimirá «No hay datos» y devolver
 
 <dl class="py function">
 <dt class="sig sig-object py" id="MatchHistory.matchHistory">
-<span class="sig-prename descclassname"><span class="pre">MatchHistory.</span></span><span class="sig-name descname"><span class="pre">matchHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/MatchHistory.html#matchHistory"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#MatchHistory.matchHistory" title="Enlazar permanentemente con esta definición"></a></dt>
-<dd><p>La función toma datos JSON, split, semana y un valor booleano y devuelve un Pandas DataFrame que
-contiene datos del historial de partidos para los jugadores de League of Legends.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (dict): un diccionario que contiene los datos de la coincidencia en formato JSON
-split (str): Una cadena que representa la división del historial de partidos (por ejemplo, «Split</p>
+<span class="sig-prename descclassname"><span class="pre">MatchHistory.</span></span><span class="sig-name descname"><span class="pre">matchHistory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teams</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/MatchHistory.html#matchHistory"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#MatchHistory.matchHistory" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función toma datos JSON, equipos, división, semana y un valor booleano y devuelve un Pandas
+DataFrame con datos del historial de partidos para cada jugador.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>dict</em>) – un diccionario que contiene los datos de la coincidencia en formato JSON</p></li>
+<li><p><strong>teams</strong> (<em>str</em>) – una cadena que representa a los dos equipos que jugaron el partido</p></li>
+<li><p><strong>split</strong> (<em>str</em>) – El split de la liga o torneo al que pertenece el partido (por ejemplo, Spring Split,</p></li>
+</ul>
 </dd>
-<dt>de verano»).</dt><dd><p>week (str): Un parámetro de cadena que representa la semana del historial de partidos.
-V4 (bool): Un parámetro booleano que indica si los datos están en formato V4 o no. Defaults to</p>
+</dl>
+<dl class="simple">
+<dt>Summer Split).</dt><dd><p>week (str): El parámetro semana es una cadena que representa el número de semana del historial de</p>
+</dd>
+<dt>partidos.</dt><dd><p>V4 (bool): Un parámetro booleano que indica si los datos están en formato V4 o no. Defaults to</p>
 </dd>
 </dl>
 <p>False</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>un DataFrame de pandas que contiene datos del historial de coincidencias para una división y una</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>La función <cite>matchHistory</cite> devuelve un Pandas DataFrame que contiene datos del historial de</p>
 </dd>
 </dl>
-<p>semana determinadas, extraídos de una entrada JSON. Los datos específicos incluidos en el DataFrame
-dependen del valor del parámetro V4.</p>
+<p>partidos para un juego, división y semana determinados de League of Legends, así como los equipos
+involucrados en el juego. La función toma un objeto JSON que contiene los datos de la coincidencia,
+así como argumentos opcionales sobre si los datos están en formato V4 y si se incluyen datos de la
+jungla.</p>
 </dd></dl>
 
 </section>
@@ -134,7 +150,7 @@ dependen del valor del parámetro V4.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Positions module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>Positions module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -83,13 +85,20 @@
 <dt class="sig sig-object py" id="Positions.findDeaths">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findDeaths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">participantFrames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findDeaths"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findDeaths" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para encontrar las muertes de los jugadores de una partida</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>split (str): Split de la partida
-week (str): Semana de la partida
-participantFrames (dict): Frames de los participantes de la partida
-json_data (dict): Json con los datos de la partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split</strong> (<em>str</em>) – Split de la partida</p></li>
+<li><p><strong>week</strong> (<em>str</em>) – Semana de la partida</p></li>
+<li><p><strong>participantFrames</strong> (<em>dict</em>) – Frames de los participantes de la partida</p></li>
+<li><p><strong>json_data</strong> (<em>dict</em>) – Json con los datos de la partida</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las posiciones de las muertes</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame con las posiciones de las muertes</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -98,13 +107,20 @@ json_data (dict): Json con los datos de la partida</p>
 <dt class="sig sig-object py" id="Positions.findFirstBloodV5">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findFirstBloodV5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findFirstBloodV5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findFirstBloodV5" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para obtener un DataFrame con las primeras sangres de cada partida</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>split (str): Split de la partida
-week (str): Semana de la partida
-events (dict): json con los eventos
-json_data (dict): Json con los datos de la partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split</strong> (<em>str</em>) – Split de la partida</p></li>
+<li><p><strong>week</strong> (<em>str</em>) – Semana de la partida</p></li>
+<li><p><strong>events</strong> (<em>dict</em>) – json con los eventos</p></li>
+<li><p><strong>json_data</strong> (<em>dict</em>) – Json con los datos de la partida</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las First blood</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame con las First blood</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -113,13 +129,20 @@ json_data (dict): Json con los datos de la partida</p>
 <dt class="sig sig-object py" id="Positions.findKills">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findKills</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#findKills"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findKills" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para encontrar los asesinatos que se especifican en el json</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>split (str): Split de la partida
-week (str): Semana de la partida
-events (dict): json con los eventos
-json_data (dict): Json con los datos de la partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>split</strong> (<em>str</em>) – Split de la partida</p></li>
+<li><p><strong>week</strong> (<em>str</em>) – Semana de la partida</p></li>
+<li><p><strong>events</strong> (<em>dict</em>) – json con los eventos</p></li>
+<li><p><strong>json_data</strong> (<em>dict</em>) – Json con los datos de la partida</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las kills</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame con las kills</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -128,10 +151,15 @@ json_data (dict): Json con los datos de la partida</p>
 <dt class="sig sig-object py" id="Positions.findWards">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">findWards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">participantFrames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#findWards"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.findWards" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para buscar las posiciones de los wards colocados por los jugadores en una partida</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>events (dict): Json con los eventos</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>events</strong> (<em>dict</em>) – Json con los eventos</p>
 </dd>
-<dt>Returns:</dt><dd><p>dict: DataFrame de los wards colocados</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame de los wards colocados</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -140,12 +168,19 @@ json_data (dict): Json con los datos de la partida</p>
 <dt class="sig sig-object py" id="Positions.getDF_positions">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getDF_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/Positions.html#getDF_positions"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getDF_positions" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Función para sacar las posiciones de Kills, Deaths, FirstBlood y Wards</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>league (str): Liga a buscar
-season (str): Año de liga
-download (bool): Descarga en formato .csv</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>league</strong> (<em>str</em>) – Liga a buscar</p></li>
+<li><p><strong>season</strong> (<em>str</em>) – Año de liga</p></li>
+<li><p><strong>download</strong> (<em>bool</em>) – Descarga en formato .csv</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame con las posiciones</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame con las posiciones</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,10 +189,15 @@ download (bool): Descarga en formato .csv</p>
 <dt class="sig sig-object py" id="Positions.getEvents">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getEvents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#getEvents"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getEvents" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para obtener los eventos del json de las partidas</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (dict): json del Timeline del juego en una partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>dict</em>) – json del Timeline del juego en una partida</p>
 </dd>
-<dt>Returns:</dt><dd><p>dict: json con todos los eventos</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>json con todos los eventos</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -166,10 +206,15 @@ download (bool): Descarga en formato .csv</p>
 <dt class="sig sig-object py" id="Positions.getParticipantFrames">
 <span class="sig-prename descclassname"><span class="pre">Positions.</span></span><span class="sig-name descname"><span class="pre">getParticipantFrames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Positions.html#getParticipantFrames"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Positions.getParticipantFrames" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para obtener los Frames de los participantes del json de la partida</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (dict): json del Timeline del juego en una partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>dict</em>) – json del Timeline del juego en una partida</p>
 </dd>
-<dt>Returns:</dt><dd><p>dict: json con los participantFrames</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>json con los participantFrames</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -184,7 +229,7 @@ download (bool): Descarga en formato .csv</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
