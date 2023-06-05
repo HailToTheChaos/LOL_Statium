@@ -96,16 +96,15 @@ class Scraping:
             if participant['participantId'] == id:          
                 return participant['player']['summonerName']
 
-    def games(league: str, season: str)->list[list:str,list:str,list:str,list:str,list:str]:           
+    def games(league: str, season: str)->list[list:str,list:str,list:str,list:str,list:str]:
         """
-        La función "juegos" recupera datos de un sitio web para una liga y temporada determinadas, y
-        devuelve listas de divisiones, semanas, equipos azules, equipos rojos y enlaces a datos del
-        juego.
+        La función "juegos" recupera datos de un sitio web para una liga y temporada determinada, y devuelve
+        una lista de nombres divididos, semanas, equipos azules, equipos rojos y enlaces a datos del juego.
         
         Args:
           league (str): una cadena que representa el nombre de una liga/región
-          season (str): El parámetro de temporada es una cadena que representa la temporada específica
-        de una liga.
+          season (str): El parámetro de temporada es una cadena que representa la temporada específica de
+        una liga de la que el usuario desea recuperar datos.
         
         Returns:
           una lista de cinco listas: splits, semanas, blueTeams, redTeams y out.
@@ -163,16 +162,20 @@ class Scraping:
         return splts, weeks, blueTeams, redTeams, out
 
 
-def blueRedTeams(table:bs4.element.Tag, league:str)->list[list,list]:
-    """Función para obtener los equipos rojos y azules de cada partida
-
+def blueRedTeams(table:bs4.element.Tag, league:str)->list[list,list]:   
+    """
+    La función toma una tabla y una liga como entrada y devuelve dos listas de equipos azul y rojo
+    respectivamente.
+    
     Args:
-        table (BeautifulSoup.element.Tag): etiqueta html que contiene la tabla con los nombres de los equipos
-        league (str): Liga a la que pertenecen (busca en el diccionario en que posición está el equipo azul)
-
+      table (bs4.element.Tag): La tabla HTML que contiene los nombres de los equipos y la información de
+    los partidos.
+      league (str): El nombre de la liga para la que se analiza la tabla.
+    
     Returns:
-        list[list, list]: blueTeams, redTeams
-    """    
+      una lista de dos listas, donde la primera lista contiene los nombres de los equipos azules y la
+    segunda lista contiene los nombres de los equipos rojos.
+    """
     blueTeams = []
     redTeams = []
     rows = table.find_all("tr")
@@ -194,14 +197,15 @@ def blueRedTeams(table:bs4.element.Tag, league:str)->list[list,list]:
     return blueTeams, redTeams
 
 def getWeeks(table:bs4.element.Tag)->list:
-    """Método privado para obtener las semanas de un split
-
+    """
+    La función extrae los nombres de las semanas de una tabla HTML utilizando Beautiful Soup.
+    
     Args:
-        table (bs4.element.Tag): etiqueta html que contiene la tabla con los nombres de los equipos
-
+      table (bs4.element.Tag): un objeto de etiqueta BeautifulSoup que representa una tabla HTML.
+    
     Returns:
-        list: Lista con las semanas
-    """    
+      una lista de cadenas, que son los nombres de las semanas en una tabla.
+    """
     weeks = []
     rows = table.find_all("tr")
     
