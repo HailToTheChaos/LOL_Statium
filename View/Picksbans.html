@@ -11,9 +11,10 @@
   <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.3.min.js"></script>
   <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.3.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/@holoviz/panel@0.13.1/dist/panel.min.js"></script>
-
-  <!--Links y Scripts de pyScript-->
+  
   <link rel="stylesheet" href="Styles/style.css" />
+  
+  <!--Links y Scripts de pyScript-->
   <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
   <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
@@ -32,7 +33,7 @@
 
     #Ficheros a utilizar
     [[fetch]]
-    files = ["../Database/db.sqlite"]
+    files = ['../Model/Database/db.sqlite']
   </py-config>
 </head>
 
@@ -132,7 +133,7 @@ pyodide_http.patch_all()
 link = r'http://ddragon.leagueoflegends.com/cdn/13.9.1/img/champion/'
 
 #<!--Se hace la conexión a la base de datos-->
-con = sql.connect('../Database/db.sqlite')
+con = sql.connect('../Model/Database/db.sqlite')
 #<!--Se obtiene el URL para saber que año generar-->
 url = js.eval("window.location.href")
 if '?' in url:

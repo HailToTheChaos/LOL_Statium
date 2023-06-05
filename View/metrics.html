@@ -86,7 +86,7 @@
     </div>
   
     <div class="input-group">
-      <label for="Season">Temporada</label>
+      <label for="Season">Split</label>
       <select id="Season-select" name="Season">
         <option value=""></option>
         <option value="Winter">Winter</option>
@@ -114,15 +114,16 @@
         <option value=""></option>
         <option value="Equipo">Equipo</option>
         <option value="Jugador">Jugador</option>
-        <option value="Spring">Spring</option>
+        <option value="Split">Split</option>
+        <option value="KDA">KDA</option>
     </select>
     <label for="Asc/Desc">Asc/Desc:</label>
       <select id="asc-select" name="Tipo">
         <option value="Ascendente">Ascendente</option>
         <option value="Descendente">Descendente</option>
     </select>
-    <input type="button" value="Filtrar" py-click="upDown">
-    <input type="button" value="Limpiar filtros" py-click="clearUpDown">
+    <input type="button" value="Filtrar" py-click="upDown()">
+    <input type="button" value="Limpiar filtros" py-click="clearUpDown()">
   </div>
   <div id="table"></div><!--Etiqueta donde se va a generar la tabla-->
   
@@ -210,7 +211,7 @@ def filterData():
     filt = True
   
   if season != '':
-    query.append(f"Temporada == '{season}'")
+    query.append(f"Split == '{season}'")
     filt = True
   if filt:
     #Se hace la consulta
@@ -252,7 +253,7 @@ def upDown():
     ascendente = False
   
   if tipo:
-    df_sorted = df.sort_values(by=tipo, ascending=ascendente)
+    df_sorted = df_rename.sort_values(by=tipo, ascending=ascendente)
     pane_df.object = df_sorted
 
 def clearUpDown():
@@ -261,7 +262,7 @@ def clearUpDown():
 
   if tipo:
     js.document.getElementById('type-select').value = ''
-    pane_df.object = df
+    pane_df.object = df_rename
 
   </py-script>
 </body>

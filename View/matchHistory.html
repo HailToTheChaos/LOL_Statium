@@ -32,7 +32,7 @@
 
     #Ficheros a utilizar
     [[fetch]]
-    files = ["../Database/db.sqlite"]
+    files = ["../Model/Database/db.sqlite"]
   </py-config>
 </head>
 
@@ -119,7 +119,7 @@ import numpy as np
 import datetime
 
 # <!-- Conexión con la base de datos SQLite-->
-con = sql.connect('../Database/db.sqlite')
+con = sql.connect('../Model/Database/db.sqlite')
 # <!-- Se lee el url -->
 url = js.eval("window.location.href")
 
