@@ -1,7 +1,7 @@
-web\_scrap module
+Web\_scrap module
 =================
 
-.. automodule:: web_scrap
+.. automodule:: Web_scrap
    :members:
    :undoc-members:
    :show-inheritance:

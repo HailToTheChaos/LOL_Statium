@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Code &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>Model &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -41,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Code</a></li>
+<li><a class="reference internal" href="#">Model</a></li>
 </ul>
 </div>
         </div>
@@ -58,7 +60,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Code</li>
+      <li class="breadcrumb-item active">Model</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/modules.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
       </li>
@@ -68,8 +70,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="code">
-<h1>Code<a class="headerlink" href="#code" title="Enlace permanente a este encabezado"></a></h1>
+  <section id="model">
+<h1>Model<a class="headerlink" href="#model" title="Enlace permanente a este encabezado"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="MatchHistory.html">MatchHistory module</a><ul>
@@ -77,13 +79,37 @@
 <li class="toctree-l2"><a class="reference internal" href="MatchHistory.html#MatchHistory.matchHistory"><code class="docutils literal notranslate"><span class="pre">matchHistory()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PicksBans.html">PicksBans module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.bans"><code class="docutils literal notranslate"><span class="pre">bans()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.formatDF"><code class="docutils literal notranslate"><span class="pre">formatDF()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.getDF_picksBans"><code class="docutils literal notranslate"><span class="pre">getDF_picksBans()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.getPatch"><code class="docutils literal notranslate"><span class="pre">getPatch()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.picks"><code class="docutils literal notranslate"><span class="pre">picks()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="PicksBans.html#PicksBans.picksBans"><code class="docutils literal notranslate"><span class="pre">picksBans()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Metadata.html">Metadata module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.bansCont"><code class="docutils literal notranslate"><span class="pre">bansCont()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.getChampionId"><code class="docutils literal notranslate"><span class="pre">getChampionId()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.getDF_metaData"><code class="docutils literal notranslate"><span class="pre">getDF_metaData()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.kda"><code class="docutils literal notranslate"><span class="pre">kda()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.metaDat"><code class="docutils literal notranslate"><span class="pre">metaDat()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.presence"><code class="docutils literal notranslate"><span class="pre">presence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Metadata.html#Metadata.winLost"><code class="docutils literal notranslate"><span class="pre">winLost()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Positions.html">Positions module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.findDeaths"><code class="docutils literal notranslate"><span class="pre">findDeaths()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.findFirstBloodV5"><code class="docutils literal notranslate"><span class="pre">findFirstBloodV5()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.findKills"><code class="docutils literal notranslate"><span class="pre">findKills()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.findWards"><code class="docutils literal notranslate"><span class="pre">findWards()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.getDF_positions"><code class="docutils literal notranslate"><span class="pre">getDF_positions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.getEvents"><code class="docutils literal notranslate"><span class="pre">getEvents()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Positions.html#Positions.getParticipantFrames"><code class="docutils literal notranslate"><span class="pre">getParticipantFrames()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Web_scrap.html">Web_scrap module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping"><code class="docutils literal notranslate"><span class="pre">Scraping</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping.games"><code class="docutils literal notranslate"><span class="pre">Scraping.games()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping.getChampionById"><code class="docutils literal notranslate"><span class="pre">Scraping.getChampionById()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping.getJson"><code class="docutils literal notranslate"><span class="pre">Scraping.getJson()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping.getParticipantByIdV4"><code class="docutils literal notranslate"><span class="pre">Scraping.getParticipantByIdV4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="Web_scrap.html#Web_scrap.Scraping.getParticipantByIdV5"><code class="docutils literal notranslate"><span class="pre">Scraping.getParticipantByIdV5()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Web_scrap.html#Web_scrap.blueRedTeams"><code class="docutils literal notranslate"><span class="pre">blueRedTeams()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Web_scrap.html#Web_scrap.getWeeks"><code class="docutils literal notranslate"><span class="pre">getWeeks()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="db.html">db module</a><ul>
@@ -95,9 +121,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="lol_stats.html">lol_stats module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metadata.html">metadata module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="web_scrap.html">web_scrap module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
 </ul>
 </div>
 </section>
@@ -110,7 +134,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

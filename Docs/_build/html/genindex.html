@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Índice &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>Índice &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -73,14 +75,23 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="PicksBans.html#PicksBans.bans">bans() (en el módulo PicksBans)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Metadata.html#Metadata.bansCont">bansCont() (en el módulo Metadata)</a>
+</li>
+      <li><a href="Web_scrap.html#Web_scrap.blueRedTeams">blueRedTeams() (en el módulo Web_scrap)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -133,6 +144,14 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping.games">games() (método de Web_scrap.Scraping)</a>
+</li>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping.getChampionById">getChampionById() (método de Web_scrap.Scraping)</a>
+</li>
+      <li><a href="Metadata.html#Metadata.getChampionId">getChampionId() (en el módulo Metadata)</a>
+</li>
+      <li><a href="Metadata.html#Metadata.getDF_metaData">getDF_metaData() (en el módulo Metadata)</a>
+</li>
       <li><a href="MatchHistory.html#MatchHistory.getDF_MH">getDF_MH() (en el módulo MatchHistory)</a>
 </li>
       <li><a href="PicksBans.html#PicksBans.getDF_picksBans">getDF_picksBans() (en el módulo PicksBans)</a>
@@ -143,9 +162,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Positions.html#Positions.getEvents">getEvents() (en el módulo Positions)</a>
 </li>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping.getJson">getJson() (método de Web_scrap.Scraping)</a>
+</li>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping.getParticipantByIdV4">getParticipantByIdV4() (método de Web_scrap.Scraping)</a>
+</li>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping.getParticipantByIdV5">getParticipantByIdV5() (método de Web_scrap.Scraping)</a>
+</li>
       <li><a href="Positions.html#Positions.getParticipantFrames">getParticipantFrames() (en el módulo Positions)</a>
 </li>
       <li><a href="PicksBans.html#PicksBans.getPatch">getPatch() (en el módulo PicksBans)</a>
+</li>
+      <li><a href="Web_scrap.html#Web_scrap.getWeeks">getWeeks() (en el módulo Web_scrap)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -154,6 +181,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="db.html#db.Database.insert_dataframe">insert_dataframe() (método de db.Database)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Metadata.html#Metadata.kda">kda() (en el módulo Metadata)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -170,6 +205,17 @@
       </ul></li>
       <li><a href="MatchHistory.html#MatchHistory.matchHistory">matchHistory() (en el módulo MatchHistory)</a>
 </li>
+      <li><a href="Metadata.html#Metadata.metaDat">metaDat() (en el módulo Metadata)</a>
+</li>
+      <li>
+    Metadata
+
+      <ul>
+        <li><a href="Metadata.html#module-Metadata">módulo</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     módulo
 
@@ -178,9 +224,13 @@
 </li>
         <li><a href="MatchHistory.html#module-MatchHistory">MatchHistory</a>
 </li>
+        <li><a href="Metadata.html#module-Metadata">Metadata</a>
+</li>
         <li><a href="PicksBans.html#module-PicksBans">PicksBans</a>
 </li>
         <li><a href="Positions.html#module-Positions">Positions</a>
+</li>
+        <li><a href="Web_scrap.html#module-Web_scrap">Web_scrap</a>
 </li>
       </ul></li>
   </ul></td>
@@ -209,6 +259,33 @@
         <li><a href="Positions.html#module-Positions">módulo</a>
 </li>
       </ul></li>
+      <li><a href="Metadata.html#Metadata.presence">presence() (en el módulo Metadata)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Web_scrap.html#Web_scrap.Scraping">Scraping (clase en Web_scrap)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    Web_scrap
+
+      <ul>
+        <li><a href="Web_scrap.html#module-Web_scrap">módulo</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Metadata.html#Metadata.winLost">winLost() (en el módulo Metadata)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -221,7 +298,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

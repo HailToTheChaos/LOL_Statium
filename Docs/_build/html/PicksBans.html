@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PicksBans module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>PicksBans module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -82,8 +84,9 @@
 <dt class="sig sig-object py" id="PicksBans.bans">
 <span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">bans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#bans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.bans" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para sacar un DataFrame con los picks.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (json): json con la información de la partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>json</em>) – json con la información de la partida</p>
 </dd>
 </dl>
 </dd></dl>
@@ -93,30 +96,41 @@
 <span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">formatDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#formatDF"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.formatDF" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para formatear el DataFrame de los picks y bans.
 Dependen de si son Picks, Bans o Blue, Red.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (df): DataFrame a formatear
-side (str): Red/blue
-type (str): Pick/ban</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>df</em>) – DataFrame a formatear</p></li>
+<li><p><strong>side</strong> (<em>str</em>) – Red/blue</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Pick/ban</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>df: DataFrame formateado</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame formateado</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>df</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="PicksBans.getDF_picksBans">
-<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">getDF_picksBans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#getDF_picksBans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.getDF_picksBans" title="Enlazar permanentemente con esta definición"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">getDF_picksBans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/PicksBans.html#getDF_picksBans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.getDF_picksBans" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método que obtiene todos los enlaces de una temporada, de una región y un año
 en concreto y los transforma en un Dataframe.
 Finalmente genera un csv
-Args:</p>
-<blockquote>
-<div><p>league (str): región de la que se quieren obtener los datos
-season (str): año
-download (bool, optional): _description_. Defaults to False.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>pd.DataFrame: Dataframe final de una temporada</p>
+:param league: región de la que se quieren obtener los datos
+:type league: str
+:param season: año
+:type season: str
+:param download: _description_. Defaults to False.
+:type download: bool, optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dataframe final de una temporada</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -125,10 +139,15 @@ download (bool, optional): _description_. Defaults to False.</p>
 <dt class="sig sig-object py" id="PicksBans.getPatch">
 <span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">getPatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#getPatch"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.getPatch" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para obtener el parche del juego</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (json): Json con los datos del juego</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>json</em>) – Json con los datos del juego</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Parche del juego</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parche del juego</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,10 +156,15 @@ download (bool, optional): _description_. Defaults to False.</p>
 <dt class="sig sig-object py" id="PicksBans.picks">
 <span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PicksBans.html#picks"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.picks" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método para obtener los picks de un json</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (json): json de entrada con los datos del juego</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>json</em>) – json de entrada con los datos del juego</p>
 </dd>
-<dt>Returns:</dt><dd><p>df: DataFrame con los picks</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame con los picks</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>df</p>
 </dd>
 </dl>
 </dd></dl>
@@ -149,13 +173,20 @@ download (bool, optional): _description_. Defaults to False.</p>
 <dt class="sig sig-object py" id="PicksBans.picksBans">
 <span class="sig-prename descclassname"><span class="pre">PicksBans.</span></span><span class="sig-name descname"><span class="pre">picksBans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">week</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blueTeam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redTeam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/PicksBans.html#picksBans"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#PicksBans.picksBans" title="Enlazar permanentemente con esta definición"></a></dt>
 <dd><p>Método que genera un DataFrame de una sola partida</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>json_data (json): Json con los datos de la partida
-blueTeam (str): Equipo del lado azul
-redTeam (str): Equipo del lado rojo
-weeks (str): Semanas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>json</em>) – Json con los datos de la partida</p></li>
+<li><p><strong>blueTeam</strong> (<em>str</em>) – Equipo del lado azul</p></li>
+<li><p><strong>redTeam</strong> (<em>str</em>) – Equipo del lado rojo</p></li>
+<li><p><strong>weeks</strong> (<em>str</em>) – Semanas</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame final con los picks y bans</p>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame final con los picks y bans</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -170,7 +201,7 @@ weeks (str): Semanas</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un

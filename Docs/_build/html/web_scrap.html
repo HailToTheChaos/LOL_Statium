@@ -4,13 +4,15 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>web_scrap module &mdash; documentación de LOL Statium - 1.0.0</title>
+  <title>Web_scrap module &mdash; documentación de LOL Statium - 2.0</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -41,7 +43,19 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">web_scrap module</a></li>
+<li><a class="reference internal" href="#">Web_scrap module</a><ul>
+<li><a class="reference internal" href="#Web_scrap.Scraping"><code class="docutils literal notranslate"><span class="pre">Scraping</span></code></a><ul>
+<li><a class="reference internal" href="#Web_scrap.Scraping.games"><code class="docutils literal notranslate"><span class="pre">Scraping.games()</span></code></a></li>
+<li><a class="reference internal" href="#Web_scrap.Scraping.getChampionById"><code class="docutils literal notranslate"><span class="pre">Scraping.getChampionById()</span></code></a></li>
+<li><a class="reference internal" href="#Web_scrap.Scraping.getJson"><code class="docutils literal notranslate"><span class="pre">Scraping.getJson()</span></code></a></li>
+<li><a class="reference internal" href="#Web_scrap.Scraping.getParticipantByIdV4"><code class="docutils literal notranslate"><span class="pre">Scraping.getParticipantByIdV4()</span></code></a></li>
+<li><a class="reference internal" href="#Web_scrap.Scraping.getParticipantByIdV5"><code class="docutils literal notranslate"><span class="pre">Scraping.getParticipantByIdV5()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Web_scrap.blueRedTeams"><code class="docutils literal notranslate"><span class="pre">blueRedTeams()</span></code></a></li>
+<li><a class="reference internal" href="#Web_scrap.getWeeks"><code class="docutils literal notranslate"><span class="pre">getWeeks()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
         </div>
@@ -58,9 +72,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">web_scrap module</li>
+      <li class="breadcrumb-item active">Web_scrap module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/web_scrap.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+            <a href="_sources/Web_scrap.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
       </li>
   </ul>
   <hr/>
@@ -68,8 +82,143 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="web-scrap-module">
-<h1>web_scrap module<a class="headerlink" href="#web-scrap-module" title="Enlace permanente a este encabezado"></a></h1>
+  <section id="module-Web_scrap">
+<span id="web-scrap-module"></span><h1>Web_scrap module<a class="headerlink" href="#module-Web_scrap" title="Enlace permanente a este encabezado"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Web_scrap.Scraping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Web_scrap.</span></span><span class="sig-name descname"><span class="pre">Scraping</span></span><a class="reference internal" href="_modules/Web_scrap.html#Scraping"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Web_scrap.Scraping.games">
+<span class="sig-name descname"><span class="pre">games</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">season</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list[slice(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">None),</span> <span class="pre">slice(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">None),</span> <span class="pre">slice(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">None),</span> <span class="pre">slice(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">None),</span> <span class="pre">slice(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">None)]</span></span></span><a class="reference internal" href="_modules/Web_scrap.html#Scraping.games"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping.games" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>La función «juegos» recupera datos de un sitio web para una liga y temporada determinadas, y
+devuelve listas de divisiones, semanas, equipos azules, equipos rojos y enlaces a datos del
+juego.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>league</strong> (<em>str</em>) – una cadena que representa el nombre de una liga/región</p></li>
+<li><p><strong>season</strong> (<em>str</em>) – El parámetro de temporada es una cadena que representa la temporada específica</p></li>
+</ul>
+</dd>
+</dl>
+<p>de una liga.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>splits, semanas, blueTeams, redTeams y out.</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>una lista de cinco listas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Web_scrap.Scraping.getChampionById">
+<span class="sig-name descname"><span class="pre">getChampionById</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Web_scrap.html#Scraping.getChampionById"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping.getChampionById" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Web_scrap.Scraping.getJson">
+<span class="sig-name descname"><span class="pre">getJson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/Web_scrap.html#Scraping.getJson"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping.getJson" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Esta función toma una URL y un parámetro booleano opcional y devuelve un objeto JSON extraído
+del HTML de la URL, con la opción de agregar un parámetro de línea de tiempo a la URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enlace</strong> (<em>str</em>) – una cadena que representa un enlace URL a una página web</p></li>
+<li><p><strong>TL</strong> (<em>bool</em>) – TL es un parámetro booleano que determina si agregar una acción específica a la</p></li>
+</ul>
+</dd>
+</dl>
+<p>URL. Si TL es True, la función agregará «/Timeline?action=edit» al final de la URL. Si TL es
+Falso, la función agregará «?acción=editar» al final de la URL. Defaults to False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve<span class="colon">:</span></dt>
+<dd class="field-odd"><p>un diccionario (escriba <cite>dict</cite>).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Web_scrap.Scraping.getParticipantByIdV4">
+<span class="sig-name descname"><span class="pre">getParticipantByIdV4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Web_scrap.html#Scraping.getParticipantByIdV4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping.getParticipantByIdV4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener el nombre de jugador a través del ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>dict</em>) – Json con todos los datos de la partida</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – ID del jugador</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nombre del jugador</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Web_scrap.Scraping.getParticipantByIdV5">
+<span class="sig-name descname"><span class="pre">getParticipantByIdV5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/Web_scrap.html#Scraping.getParticipantByIdV5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.Scraping.getParticipantByIdV5" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método para obtener el nombre de jugador a través del ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>dict</em>) – Json con todos los datos de la partida</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – ID del jugador</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nombre del jugador</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Web_scrap.blueRedTeams">
+<span class="sig-prename descclassname"><span class="pre">Web_scrap.</span></span><span class="sig-name descname"><span class="pre">blueRedTeams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">league</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/Web_scrap.html#blueRedTeams"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.blueRedTeams" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Función para obtener los equipos rojos y azules de cada partida</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>BeautifulSoup.element.Tag</em>) – etiqueta html que contiene la tabla con los nombres de los equipos</p></li>
+<li><p><strong>league</strong> (<em>str</em>) – Liga a la que pertenecen (busca en el diccionario en que posición está el equipo azul)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>blueTeams, redTeams</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list, list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Web_scrap.getWeeks">
+<span class="sig-prename descclassname"><span class="pre">Web_scrap.</span></span><span class="sig-name descname"><span class="pre">getWeeks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tag</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/Web_scrap.html#getWeeks"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#Web_scrap.getWeeks" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Método privado para obtener las semanas de un split</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>table</strong> (<em>bs4.element.Tag</em>) – etiqueta html que contiene la tabla con los nombres de los equipos</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lista con las semanas</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -80,7 +229,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Derechos de autor 2023, Jaime de la Fuente Calvente.</p>
+    <p>&#169; Derechos de autor 2023, Jaime de la Fuente.</p>
   </div>
 
   Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
