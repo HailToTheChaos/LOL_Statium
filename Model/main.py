@@ -9,6 +9,10 @@ from tqdm import tqdm
 db = Database()
 
 def main():
+    """
+    La función inserta marcos de datos de picks y bans, historial de partidos, metadatos
+    y posiciones para una liga y temporada determinadas en una base de datos.
+    """
     # Se instancia la liga y las temporadas
     league = input("Inserte una liga válida: (LEC,LCS,LCK,LJL,PCS,VCS)")
     season = ['2020', '2021', '2022', '2023']

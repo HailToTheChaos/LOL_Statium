@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 class Database:
-    db_name = r"db.sqlite"
+    db_name = "/Model/Database/db.sqlite"
     def __init__(self):
         """Constructor del objeto Database
         """        
