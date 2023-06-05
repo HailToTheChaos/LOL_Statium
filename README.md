@@ -28,21 +28,6 @@ Tu fuente de estadísticas de League Of Legends
 |—— Controller
 |    |—— Index.js
 |—— Docs
-|    |—— conf.py
-|    |—— db.rst
-|    |—— db.sqlite
-|    |—— index.rst
-|    |—— make.bat
-|    |—— Makefile
-|    |—— MatchHistory.rst
-|    |—— Metadata.rst
-|    |—— modules.rst
-|    |—— PicksBans.rst
-|    |—— Positions.rst
-|    |—— Web_scrap.rst
-|    |—— _build
-|    |—— _static
-|    |—— _templates
 |—— Model
 |    |—— DataBase
 |        |—— db.sqlite
