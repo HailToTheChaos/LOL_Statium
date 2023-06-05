@@ -5,7 +5,7 @@ Tu fuente de estadísticas de League Of Legends
 - Titulo:  `LOL STATIUM`
 - Autor:  `Jaime de la Fuente`
 
-## Install & Dependence
+## Dependencias
 - python
 - pandas
 - panel
