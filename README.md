@@ -23,7 +23,7 @@ Tu fuente de estadísticas de League Of Legends
   .\View\index.html
   ```
 
-## Directory Hierarchy
+## Directorio
 ```
 |—— Controller
 |    |—— Index.js
