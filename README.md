@@ -13,7 +13,7 @@ Tu fuente de estadísticas de League Of Legends
 - matplotlib
 - numpy
 
-## Use
+## Uso
 - Para obtener datos y guardarlos en la base de datos
   ```
   python .\Model\main.py
