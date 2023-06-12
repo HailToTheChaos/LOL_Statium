@@ -190,14 +190,15 @@ def topPickBan(df, type='picks'):
     imagebox = OffsetImage(img, zoom=0.25)
     ab = AnnotationBbox(imagebox, (0, i), xycoords='data', frameon=False)
     ax.add_artist(ab)
+    # Se agrega el texto con el nombre y porcentaje del campeón al lado de la imagen
+    ax.text(0.3, i, f'{champ} - {top_champs[champ]:.2f}%', ha='left', va='center', color='white', fontweight='bold')
+
   top_champs.plot.barh(ax=ax, color="#0059b3")
 
   #<!--Se invierte el eje y Para verlo de mayor a menor-->
   ax.invert_yaxis()
   ax.axis('off')
-  #<!--Se muestran los valores de las barras a la derecha de cada barra-->
-  for i, v in enumerate(name_counts.head(5)):
-    ax.text(v, i, f'{v:.2f}%', ha='right', va='center', color='white')
+
   return fig
 
 def allPicks(df):

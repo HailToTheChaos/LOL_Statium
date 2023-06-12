@@ -207,10 +207,12 @@ def getDF_picksBans(league: str, season: str, download: bool = False)->pd.DataFr
 
         # Se recorren las listas para meter los datos en el DF final
         for i in tqdm(range(len(links)), unit='MB', desc=f"Picks y bans {league} {season}", colour='Blue', leave=False):
+            #Se concatenan los DataFrames
             df_final = pd.concat([df_final,
                                   picksBans(ssons[i], weeks[i], blueTeams[i],
                                             redTeams[i], Scraping.getJson(links[i]))], ignore_index=True)
 
+        #Se añade una columna con la Split a la que pertenece
         df_final.insert(0, 'Season', season)
 
         # Se crea el csv
