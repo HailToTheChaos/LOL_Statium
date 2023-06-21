@@ -11,7 +11,6 @@ splits = ('Winter_Season', 'Spring_Season', 'Summer_Season')
 team_ids = {'AST': 'Astralis', 'BDS': 'Team BDS',
             'FNC': 'Fnatic', 'MAD': 'Mad Lions', 'MSF': 'Misfits Gaming'}
 
-
 class Scraping:
     def getJson(enlace: str, TL: bool = False)->dict:        
         """

@@ -25,6 +25,11 @@ div#header>i {
     font-size: 4em;
 }
 
+div#graph img{
+    width: 150%;
+    height: auto;
+}
+
 /* Estilos para el menú */
 .navbar {
     background-color: #0059b3;
@@ -180,8 +185,8 @@ select {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 15px;
+    align-items: end;
+    gap: 20%;
 }
 
 /* Estilo para el Dataframe de las métricas*/

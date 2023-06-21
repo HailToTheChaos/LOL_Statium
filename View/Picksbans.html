@@ -24,7 +24,7 @@
     packages = [
     "https://cdn.holoviz.org/panel/0.14.4/dist/wheels/bokeh-2.4.3-py3-none-any.whl",
     "pandas",
-    "panel==0.13.1",
+    "panel==0.14.4",
     "matplotlib",
     "numpy",
     "pillow",
@@ -210,7 +210,7 @@ def allPicks(df):
 
   return reversed_df
   
-panel = pn.pane.Matplotlib(topPickBan(df))
+panel = pn.pane.Matplotlib(topPickBan(df),tight=True)
 panel.servable(target="graph")
 panel2 =  pn.pane.DataFrame(allPicks(df),sizing_mode='stretch_width', index=False)
 panel2.servable(target="table2")
