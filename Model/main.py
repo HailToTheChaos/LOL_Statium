@@ -21,7 +21,7 @@ def main():
     # y la inserto en la BBDD
     for i in tqdm(range(len(season))):
         #Picks y Bans
-        db.insert_dataframe(PicksBans.getDF_picksBans(league, season), "PicksBans_{}_{}".format(league, season[i]))
+        db.insert_dataframe(PicksBans.getDF_picksBans(league, season[i]), "PicksBans_{}_{}".format(league, season[i]))
 
         # Historial de partida
         db.insert_dataframe(MatchHistory.getDF_MH(league, season[i]),
@@ -29,7 +29,7 @@ def main():
 
         # Metadata
         db.insert_dataframe(Metadata.getDF_positions(
-            league, season), "Metadata_{}_{}".format(league, season))
+            league, season), "Metadata_{}_{}".format(league, season[i]))
 
         # Posiciones
         db.insert_dataframe(Positions.getDF_positions(league, season[i]),
