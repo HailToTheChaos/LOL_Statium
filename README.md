@@ -29,8 +29,6 @@ Tu fuente de estadísticas de League Of Legends
 |    |—— Index.js
 |—— Docs
 |—— Model
-|    |—— DataBase
-|        |—— db.sqlite
 |    |—— db.py
 |    |—— Download
 |    |—— main.py
