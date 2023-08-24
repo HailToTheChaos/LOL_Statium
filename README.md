@@ -41,10 +41,6 @@ Tu fuente de estadísticas de League Of Legends
 |    |—— Web_scrap.py
 |—— Tests
 |    |—— Tests.py
-|—— venv
-|    |—— etc
-|    |—— Include
-|    |—— Lib
 |—— View
 |    |—— 404.html
 |    |—— heatmap.html
