@@ -20,7 +20,7 @@ Tu fuente de estadísticas de League Of Legends
   ```
 - Para iniciar la página
   ```
-  .\View\index.html
+  python -m http.server
   ```
 
 ## Directorio
