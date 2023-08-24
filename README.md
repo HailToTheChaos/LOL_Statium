@@ -59,8 +59,6 @@ Tu fuente de estadísticas de League Of Legends
 |        |—— style.css
 |        |—— style_index.css
 ```
-![portada](Media/image001.png)
-
 # 1	RESUMEN
 Este proyecto consiste en crear una página web que muestra información y gráficos sobre un videojuego llamado League of Legends, que se juega de forma competitiva en diferentes ligas.
 El proyecto se centra en la liga LEC, que es una de las más importantes a nivel europeo. 
