@@ -374,7 +374,7 @@ Este presupuesto presenta una estimación de costos para el desarrollo y lanzami
 |---|---|---|
 |Hardware|Equipos para desarrollar para una plantilla de 3 personas (computadora, monitores, periféricos)|2000 € – 3000 €|
 |Software|Licencias y herramientas de desarrollo (IDE, editores)|0€ (hay IDEs y editores gratuitos)|
-|Servicios en la nube	Servidores|Web que pueden automatizar el proceso de Web Scraping y alojamiento de la página|10 € - 100€ (dependiendo del tráfico de la Web y las herramientas que se requiera)|
+|Servicios en la nube|Servidores Web que pueden automatizar el proceso de Web Scraping y alojamiento de la página|10 € - 100€ (dependiendo del tráfico de la Web y las herramientas que se requiera)|
 |Costos fijos|Dominio, seguridad SSL y otros costos recurrentes|80 € - 160 € por año|
 |Costos variables|Marketing, publicidad y promoción (de momento en redes o Google)|	20 € mensuales| 
 # 10	 CONCLUSIONES
