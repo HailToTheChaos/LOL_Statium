@@ -7,7 +7,7 @@ class Database:
         """Constructor del objeto Database
         """        
         try:
-            self.conn = sqlite3.connect(Database.db_name)
+            self.conn = sqlite3.connect(Database.db_name)            
             self.cursor = self.conn.cursor()
         
         #Excepcion si la base de datos no se ha podido conectar

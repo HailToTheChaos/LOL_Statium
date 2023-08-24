@@ -14,7 +14,8 @@ def main():
     y posiciones para una liga y temporada determinadas en una base de datos.
     """
     # Se instancia la liga y las temporadas
-    league = input("Inserte una liga válida: (LEC,LCS,LCK,LJL,PCS,VCS)")
+    # league = input("Inserte una liga válida (LEC,LCS,LCK,LJL,PCS,VCS): ")
+    league = "LEC"
     season = ['2020', '2021', '2022', '2023']
 
     # Recorro la lista de los años, obtengo el dataframe de esa temporada
