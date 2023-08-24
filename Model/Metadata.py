@@ -3,7 +3,6 @@ from Web_scrap import Scraping
 from Web_scrap import *
 from tqdm import tqdm
 import requests
-from os import system
 
 # Assign URL
 principal = "https://lol.fandom.com/"

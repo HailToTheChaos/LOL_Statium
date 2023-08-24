@@ -50,7 +50,7 @@ function register() {
             // DOne
             alert('Usuario Creado correctamente. Verifique el correo para verificar la cuenta.')
             window.location.href = "index.html"; 
-            sendEmailVerification(user)
+
         })
         .catch(function (error) {
             // Firebase will use this to alert of its errors

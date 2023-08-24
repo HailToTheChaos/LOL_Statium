@@ -5,10 +5,10 @@ import Positions
 from db import Database
 from tqdm import tqdm
 
-# Inicializo el objeto DataBase
-db = Database()
 
-def main():
+
+def main():    
+    
     """
     La función inserta marcos de datos de picks y bans, historial de partidos, metadatos
     y posiciones para una liga y temporada determinadas en una base de datos.
@@ -21,8 +21,7 @@ def main():
     # y la inserto en la BBDD
     for i in tqdm(range(len(season))):
         #Picks y Bans
-        db.insert_dataframe(PicksBans.getDF_picksBans(
-            league, season), "PicksBans_{}_{}".format(league, season[i]))
+        db.insert_dataframe(PicksBans.getDF_picksBans(league, season), "PicksBans_{}_{}".format(league, season[i]))
 
         # Historial de partida
         db.insert_dataframe(MatchHistory.getDF_MH(league, season[i]),
@@ -39,4 +38,6 @@ def main():
     db.close
 
 if __name__ == "__main__":
+    # Inicializo el objeto DataBase
+    db = Database()
     main()
