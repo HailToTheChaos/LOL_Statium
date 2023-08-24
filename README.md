@@ -59,35 +59,40 @@ Tu fuente de estadísticas de League Of Legends
 |        |—— style.css
 |        |—— style_index.css
 ```
+![portada](Media/image001.png)
 
 # 1	RESUMEN
 Este proyecto consiste en crear una página web que muestra información y gráficos sobre un videojuego llamado League of Legends, que se juega de forma competitiva en diferentes ligas.
 El proyecto se centra en la liga LEC, que es una de las más importantes a nivel europeo. 
 Para obtener la información, se usa una técnica que se llama Web Scraping, que sirve para extraer datos de otras páginas web. En este caso, se extraen los datos de una página llamada lol.fandom.com, que los presenta en un formato fácil de usar. 
 Los datos se transforman en un marco de datos para poder manejarlos y guardarlos en una base de datos. Tras su guardado, los datos se usan para crear una página web con Python, un lenguaje de programación muy popular. 
+
+![Python](Media/image002.png)
  
 En la página web se muestran diferentes tipos de gráficos que ayudan a entender mejor el videojuego: mapas que indican dónde ocurren las acciones más importantes, barras que muestran los personajes más usados, tablas que comparan el rendimiento de los jugadores, etc. Estos gráficos se hacen con unas herramientas que se llaman Matplotlib y Panel.
 
-This project consists of creating a web page that shows information and graphics about a video game called League of Legends, which is played competitively in different leagues. 
-The project focuses on the LEC league, which is one of the most important in Europe.
-To obtain the information, a technique called Web Scraping is used, which serves to extract data from other web pages. In this case, the data is extracted from a page called lol.fandom.com, which presents them in an easy-to-use format. 
-The data is transformed into a data frame so that it can be handled and stored in a database. After saving, the data is used to create a web page with Python, a very popular programming language. 
-On the web page, different types of graphs are shown that help to better understand the video game: maps that indicate where the most important actions occur, bars that show the most used characters, tables that compare the performance of the players, etc. These graphs are made with some tools called Matplotlib and Panel.
-
+![LOL](Media/image003.jpg)
  
  
 # 2	INTRODUCCIÓN
 League of Legends es un videojuego de género MOBA (Multiplayer Online Battle Arena) que se ha convertido en uno de los más populares y exitosos del mundo. Cuenta con millones de jugadores que compiten entre sí en partidas online, tanto de forma amateur como profesional.
 El objetivo principal del League of Legends (también reconocido por sus siglas LOL), es destruir la base del equipo contrario mientras se defiende la propia. Para lograrlo, los jugadores se agrupan en equipos de cinco personas y se enfrentan en una partida. Cada jugador controla a un campeón con habilidades únicas y diferentes roles dentro del equipo.
+
+![Nexo](Media/image004.png)
  
 A medida que la partida avanza, los campeones ganan experiencia y obtienen oro para adquirir objetos que mejoran sus habilidades y atributos. Además, durante la partida aparecen objetivos especiales, como el dragón y el barón Nashor, que otorgan ventajas estratégicas al equipo que los capture.
+
+![Nashor y dragon](Media/image005.jpg)
  
 El mapa del juego está dividido en tres carriles o líneas: superior, central e inferior, y una jungla entre ellos. Los jugadores deben navegar por el mapa, enfrentarse a los campeones enemigos, eliminar monstruos neutrales y destruir torres defensivas para avanzar hacia la base enemiga.
  
+![Mapa](Media/image006.jpg)
+
 Es un juego que combina estrategia, habilidad individual y trabajo en equipo, y requiere de coordinación, toma de decisiones rápidas y dominio de las mecánicas de juego para tener éxito. Con su amplia variedad de campeones, estrategias y modos de juego.
 El juego tiene una escena competitiva muy desarrollada, con diferentes ligas regionales que se disputan a lo largo del año y que culminan en un campeonato mundial. Una de estas ligas es la LEC (League of Legends European Championship), que reúne a los mejores equipos y jugadores de Europa.
 
- 
+![LEC](Media/image007.png)
+
 Según un artículo de la revista AS, la final de Worlds  del 2021 tuvo un pico de 73 millones de espectadores. Esto quiere decir que la escena competitiva de este videojuego es bastante amplia y sólida.
 El análisis de datos y la visualización de información son herramientas muy útiles para comprender mejor el funcionamiento y el rendimiento de un videojuego como League of Legends. A través de ellas, se pueden obtener perspectivas sobre las estrategias, las preferencias, las fortalezas y las debilidades de los equipos y los jugadores que participan en la liga LEC. Además, se pueden generar gráficos atractivos e interactivos que faciliten la comunicación y la difusión de los resultados.
 El objetivo de este proyecto es crear una página web que genere estadísticas y gráficos sobre el videojuego League of Legends a nivel competitivo, enfocándose en la liga LEC.
@@ -145,28 +150,40 @@ El proyecto se basa en una arquitectura cliente-servidor, donde el cliente es el
 •	Cliente:
 - Navegador web: Interfaz de usuario que permite a los usuarios acceder y visualizar la página web. 
 El cliente tiene una página principal donde tiene un menú de navegación para ir directamente a los contenidos, luego distintas secciones dónde se especifican que información hay en cada apartado y una descripción general del proyecto.
+
+![Index](Media/image008.png)
  
 Cada apartado se divide en las gráficas que se generan, que en este caso son cuatro: métricas, mapas de calor, Top Picks e Historial de partido. Cada apartado ejecuta un Script distinto y hace una consulta a la base de datos personalizada.
+
 Tambíen existe un Logín, el cual tenía como meta principal hacer estadísticas personalizadas, pero al no haber acceso a la API del videojuego de momento sirve para mandarte newsletters.
+
+![Login](Media/image009.png)
  
 Las métricas son los metadatos de cada temporada, los cuales muestran las estadísticas de cada jugador en ese periodo. Esto sirve para mostrar sus puntos fuertes y débiles, así como una comparación respecto a la temporada anterior.
 
+![Métricas](Media/image010.png)
  
 Las métricas también tienen un apartado para ordenar de mayo a menor las columnas.
  
+![Filtro métricas](Media/image011.png)
+
 Los mapas de calor muestran las tendencias a que los jugadores mueran en cierto punto, hagan asesinatos o coloquen un objeto de visión (Ward ). Dichos objetivos se muestran encima del mapa oficial del juego para su fácil visualización.
- 
+
+![Mapa de calor](Media/image012.png)
  
 Los Top Picks son gráficas de barras horizontales que muestran la tendencia a elegir cierto personaje, mostrando el top 5 de campeones más elegidos y su porcentaje.
  
+![Top picks](Media/image013.png)
  
 Finalmente, el historial de partidas muestra resultados generales de la partida.
+
+![Historial](Media/image014.png)
  
 Todas estas páginas tienen en común el filtrado general, el cual sirve para filtrar por jugador, por equipo y por Split . También contienen un menú de navegación, el cual puedes acceder a cualquier enlace de la página o visitar las estadísticas de años posteriores (desde 2019, hasta la actualidad).
 
- 
+![Filtro General](Media/image015.png)
 
-
+![Enlaces](Media/image016.png)
  
 A la hora de filtrar los datos, se utiliza el framework PyScript, el cual, al generar eventos en la página ejecuta distintas instrucciones. Generalmente, son instrucciones para filtrar el gráfico/tabla o mostrar los menús. 
 •	Servidor:
@@ -179,28 +196,41 @@ En el caso de este proyecto, una vez se accede a los distintos apartados, se hac
 •	Obtención de los datos
 - Web Scrap: Utiliza la técnica de Web Scraping para extraer datos de la página lol.fandom.com en formato JSON.
  
+![LOL.Fandom](Media/image017.png)
+
 A continuación, se muestra un ejemplo de Web Scraping:
  
- 
+![Screenshot 1](Media/image018.png)
+![Screenshot 2](Media/image019.png)
+
 Primero se muestra como se obtiene el JSON de la página web lol.fandom.com y después como se obtiene información de una tabla.
 - Librería Pandas: Utilizada para guardar los datos en un DataFrame y poder manejarlos para su posterior guardado en una Base de datos SQL.
 Ejemplo de DataFrame:
  
+![Ejemplo Dataframe](Media/image020.png)
+
 - Base de datos SQLite: Almacena los datos extraídos para su posterior procesamiento y consulta.
  
 •	Flujo de usuario
 A continuación, se muestra cual es el flujo de navegación de la página web.
  
- 
- 
+![User Flow 1](Media/image021.png)
+![User Flow 2](Media/image022.png)
+
 •	Programa para obtener los datos:
  
+![Screenshot 3](Media/image023.png)
+![Screenshot 4](Media/image024.png)
   
 •	Base de datos: 
 Este es el esquema entidad-relación de mi base de datos.
+
+![Entidad-relacion](Media/image025.png)
   
 ## 5.2	Tecnologías y Lenguajes:
  
+![Gráfica](Media/image026.png)
+
 - Python: Lenguaje de programación utilizado para desarrollar la aplicación web, realizar el Web Scraping, procesar los datos, generar los gráficos y agregar interactividad a la página web.
 - HTML: Lenguaje de marcado utilizado para definir la estructura y el contenido de la página web.
 - CSS: Lenguaje de estilos utilizado para aplicar estilos y mejorar la apariencia visual de la página web.
@@ -223,6 +253,8 @@ PyScript desempeña un papel fundamental, ya que permite ejecutar código en for
 En cuanto a la gestión de la base de datos, he optado por utilizar SQLite, considerándola la mejor alternativa debido a su fácil integración con Python y su naturaleza liviana. SQLite también destaca por su rapidez y eficiencia, lo que garantiza una visualización ágil de los datos.
 Una vez que los datos han sido adquiridos, utilizo dos herramientas clave para su visualización: Matplotlib y Panel. Estas potentes bibliotecas me permiten generar gráficos interactivos que se incrustarán en la página web, enriqueciendo la experiencia de los usuarios.
 Como editor utilizo Visual Studio Code, que es un editor de código fuente desarrollado por Microsoft. Se ha vuelto muy popular entre los desarrolladores debido a su simplicidad, su amplia gama de características y su capacidad de personalización. VS Code es un editor de texto liviano pero potente que proporciona un entorno de desarrollo integrado (IDE) para múltiples lenguajes de programación. En mi caso lo utilizo porque me da la opción de juntar en un mismo proyecto distintos lenguajes.
+
+![IDE](Media/image027.png) ![VS Logo](Media/image028.png)
   
 ## 6.2	Datos
 Mi proyecto se basa principalmente en los datos, ya que gracias a ellos genero las estadísticas y las gráficas. Como he mencionado anteriormente, utilizó la técnica de Web Scraping para extraer los datos relevantes de la página lol.fandom.com.
@@ -231,20 +263,29 @@ Un Data Frame es una estructura de datos tabular bidimensional en la que los dat
 Posteriormente, una vez los datos tienen formato de DataFrame, con la librería Pandas tenemos la opción de guardar los datos en SQL, en este caso SQLite3.
 Para que luego la lectura sea más fácil, he almacenado los datos por tipos: Picks y Bans de cada partida, posiciones de las muertes, asesinatos y primeras sangres de cada partida, Meta datos generales de una temporada y el historial de cada partida.
 La consulta de datos la hago cada vez que se inicia una página
-6.3	Configuración
+
+## 6.3	Configuración
 A la hora de obtener los datos, utilizo un entorno virtual de Python. Dicho entorno me permite descargar librerías que no forman parte de la librería estándar, las cuales se descargan mediante PIP. 
 En Python, a veces las aplicaciones necesitan una versión específica de una librería, debido a que dicha aplicación requiere que un bug particular haya sido solucionado o bien la aplicación ha sido escrita usando una versión obsoleta de la interfaz de la librería. Es por eso que se utiliza un entorno, el cual contiene una instalación de Python de una versión en particular, además de unos cuantos paquetes adicionales.
 Las dependencias que utilizo son Pandas, Matplotlib, Panel, Requests, BeautifulSoup4 y NumPy.
 •	Modelo-vista-controlador:
 Respecto a la organización del código, me baso en el patrón Modelo-Vista-Controlador.
  
+![MVC](Media/image029.png)
+
 En el Modelo tenemos la parte de backend donde se guardan la estructura/lógica de los datos. En dicho paquete se encuentra el código con el cual generamos los datos y los guardamos, la base de datos y las descargas para controlar que los datos se obtienen bien (una vez verificado se guarda todo en la base de datos).
+
 Esta parte se divide en los distintos modelos de datos, la base de datos y los tests.
- 
+
+![Modelo](Media/image030.png)
+
 Por otro lado, tenemos la parte de la página web, la cual es la parte de la vista del proyecto. Es decir, es el frontend o interfaz gráfica de usuario.
  
+![Vista](Media/image031.png)
+
 Por último, tenemos el controlador, la cual es el cerebro de la aplicación que controla como se muestran los datos. Aquí se muestra el JavaScript para gestionar el login y los Scripts de PyScript para los HTML.
  
+![Controlador](Media/image032.png)
  
 •	Web Scraping: 
 Implemento el código necesario para realizar el Web Scraping en Python utilizando librerías como requests o BeautifulSoup. Extraigo los datos necesarios de lol.fandom.com y los guardo en la base de datos.
@@ -253,37 +294,53 @@ Generación de gráficos: Utilizo la librería Matplotlib y Panel para generar l
 Como he comentado, utilizo PyScript, lo cual me permite manejar los Scripts de HTML con Python.
 Para su perfecto funcionamiento, tengo que importar la hoja de estilos y el Script que permite utilizar pyScript en HTML:
  
+![pyscript links](Media/image033.png)
+
 Una vez importado, procedo la configuración de pyScript. En la configuración incluyo las librerías y fichero necesarios que voy a utilizar posteriormente:
+
+![Pyscript config](Media/image034.png)
  
 Finalmente, incluyo el Script que quiero utilizar:
  
+![Pyscript](Media/image035.png)
+
 •	Firebase console:
 Para controlar los usuarios que se registran o inician sesión utilizo Firebase.
 Firebase es una plataforma para el desarrollo de aplicaciones web y aplicaciones móviles, el cual tiene herramientas como la autenticación de usuarios, manejo de bases de datos NOSQL, almacenamiento de imágenes, etc.
 Para configurarlo, lo primero es crear un proyecto:
  
 Una vez configurado, le implemento los modulos de Authetication y Cloud Firestore.
+
+![Firebase](Media/image037.png)
  
 Authentication funciona como un administrador de usuarios. A través del código, se van creando usuarios o se les da la opción de iniciar sesión. En el caso de que no exista un usuario, sería el propio SDK de Firebase implementado el que nos diga que las credenciales no son correctas.
 Así se implementaría Firebase en HTML.
- 
+
+![Implementacion](Media/image038.png)
 
 Posteriormente, lo que he hecho es hacer un Script que permita registrar usuarios o iniciar sesión. También manejo el control de errores.
-Una vez se registran, guardo los datos en Cloud Firestore para tratarlos posteriormente. 
+Una vez se registran, guardo los datos en Cloud Firestore para tratarlos posteriormente.
+
 # 7	PRUEBAS
 ## 7.1	Ejemplos de pruebas unitarias
 •	Pruebo que al introducirle datos correctos, devuelva un data frame que no esté vacio.
  
+![Prueba 1](Media/image039.png)
+
 •	Prueba para verificar que, al meterle datos vacíos, devuelve un data frame vacio.
+
+![Prueba 2](Media/image040.png)
  
 •	Prueba para verificar que devuelve un data frame vacio cuando le metes una liga y temporada invalida
  
-   
+![Prueba 3](Media/image041.png)
+![tests](Media/image042.png) ![tests +](Media/image043.png)     
  
 # 8	EXPLOTACIÓN
 La explotación de un sistema informático abarca una serie de etapas cruciales para su funcionamiento eficiente y exitoso. 
 ## 8.1	Planificación
  
+![Planificacion graf](Media/image044.png)   
 
 En primer lugar, la planificación es fundamental para establecer los objetivos del sistema, identificar los requisitos y definir un plan estratégico. En mi caso, la planificación se basó principalmente en la investigación de que herramientas me podrían resultar más prácticas y eficientes a la hora de mostrar mi aplicación.
 Esa investigación desembocó posteriormente en la implementación de dichas herramientas hasta construir el proyecto que tenía en mente.
@@ -313,12 +370,13 @@ Finalmente, el mantenimiento continuo es fundamental para garantizar que el sist
  
 # 9	PRESUPUESTO
 Este presupuesto presenta una estimación de costos para el desarrollo y lanzamiento de LOL Statium. El presupuesto está pensado para un equipo compuesto por dos desarrolladores y un analista de datos.
-Categoría	Descripción	Coste Estimado
-Hardware	Equipos para desarrollar para una plantilla de 3 personas (computadora, monitores, periféricos)	2000 € – 3000 €
-Software	Licencias y herramientas de desarrollo (IDE, editores)	0€ (hay IDEs y editores gratuitos)
-Servicios en la nube	Servidores Web que pueden automatizar el proceso de Web Scraping y alojamiento de la página	10 € - 100€ (dependiendo del tráfico de la Web y las herramientas que se requiera)
-Costos fijos	Dominio, seguridad SSL y otros costos recurrentes	80 € - 160 € por año
-Costos variables	Marketing, publicidad y promoción (de momento en redes o Google)	20 € mensuales
+|Categoría|Descripción|Coste Estimado|
+|---|---|---|
+|Hardware|Equipos para desarrollar para una plantilla de 3 personas (computadora, monitores, periféricos)|2000 € – 3000 €|
+|Software|Licencias y herramientas de desarrollo (IDE, editores)|0€ (hay IDEs y editores gratuitos)|
+|Servicios en la nube	Servidores|Web que pueden automatizar el proceso de Web Scraping y alojamiento de la página|10 € - 100€ (dependiendo del tráfico de la Web y las herramientas que se requiera)|
+|Costos fijos|Dominio, seguridad SSL y otros costos recurrentes|80 € - 160 € por año|
+|Costos variables|Marketing, publicidad y promoción (de momento en redes o Google)|	20 € mensuales|
  
 # 10	 CONCLUSIONES
 En este proyecto, se ha desarrollado una página web que muestra información y gráficos sobre el videojuego League of Legends, centrándose en la liga LEC, una de las más importantes a nivel europeo. Para obtener los datos necesarios, se ha utilizado la técnica de Web Scraping para extraer información relevante de la página lol.fandom.com en un formato fácil de usar.
