@@ -29,12 +29,13 @@ def main():
                             "MatchHistory_{}_{}".format(league, season[i]))
 
         # Metadata
-        db.insert_dataframe(Metadata.getDF_positions(
+        db.insert_dataframe(Metadata.getDF_metaData(
             league, season), "Metadata_{}_{}".format(league, season[i]))
 
-        # Posiciones
-        db.insert_dataframe(Positions.getDF_positions(league, season[i]),
-                            "Positions_{}_{}".format(league, season[i]))
+        if season[i] == '2023':
+            # Posiciones
+            db.insert_dataframe(Positions.getDF_positions(league, season[i]),
+                                "Positions_{}_{}".format(league, season[i]))
 
     db.close
 
