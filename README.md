@@ -89,7 +89,7 @@ El mapa del juego está dividido en tres carriles o líneas: superior, central e
 Es un juego que combina estrategia, habilidad individual y trabajo en equipo, y requiere de coordinación, toma de decisiones rápidas y dominio de las mecánicas de juego para tener éxito. Con su amplia variedad de campeones, estrategias y modos de juego.
 El juego tiene una escena competitiva muy desarrollada, con diferentes ligas regionales que se disputan a lo largo del año y que culminan en un campeonato mundial. Una de estas ligas es la LEC (League of Legends European Championship), que reúne a los mejores equipos y jugadores de Europa.
 
-![LEC](Media/image007.png)
+![LEC](Media/image007.jpg)
 
 Según un artículo de la revista AS, la final de Worlds  del 2021 tuvo un pico de 73 millones de espectadores. Esto quiere decir que la escena competitiva de este videojuego es bastante amplia y sólida.
 El análisis de datos y la visualización de información son herramientas muy útiles para comprender mejor el funcionamiento y el rendimiento de un videojuego como League of Legends. A través de ellas, se pueden obtener perspectivas sobre las estrategias, las preferencias, las fortalezas y las debilidades de los equipos y los jugadores que participan en la liga LEC. Además, se pueden generar gráficos atractivos e interactivos que faciliten la comunicación y la difusión de los resultados.
